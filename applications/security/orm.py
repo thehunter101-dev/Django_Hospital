@@ -11,12 +11,6 @@ menu1 = Menu(
 )
 menu1.save()
 
-menu1 = Menu(
-    name='Emergencia',
-    icon='fa fa-person',
-    order=7
-)
-menu1.save()
 
 menu2 = Menu.objects.create(
     name='Consultas',

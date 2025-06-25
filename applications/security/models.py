@@ -4,7 +4,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, Group, Permission, PermissionsMixin
 from django.db import models
 from django.db.models import UniqueConstraint
-
+from applications.security.utils.audit_user import AccionChoices
 
 """
 Modelo Menu: Representa las categorías principales de navegación del sistema.
@@ -16,7 +16,6 @@ Ejemplos:
 3. Finanzas (icon: bi bi-cash-coin, order: 3) - Agrupa módulos financieros
 """
 class Menu(models.Model):
-   
     name = models.CharField(verbose_name='Nombre', max_length=150, unique=True)
     icon = models.CharField(verbose_name='Icono', max_length=100, default='bi bi-calendar-x-fill')
     order = models.PositiveSmallIntegerField(verbose_name='Orden', default=0)
@@ -24,14 +23,10 @@ class Menu(models.Model):
     def __str__(self):
         return self.name
 
-   
-   
     class Meta:
         verbose_name = 'Menu'
         verbose_name_plural = 'Menus'
         ordering = ['order', 'name']
-
-
 """
 Modelo Module: Representa funcionalidades específicas del sistema agrupadas por menú.
 Cada módulo tiene una URL única y pertenece a un menú particular.
@@ -49,7 +44,6 @@ class Module(models.Model):
     icon = models.CharField(verbose_name='Icono', max_length=100, default='bi bi-x-octagon')
     is_active = models.BooleanField(verbose_name='Es activo', default=True)
     order = models.PositiveSmallIntegerField(verbose_name='Orden', default=0)
-  
     permissions = models.ManyToManyField(Permission, blank=True)
 
     def __str__(self):
@@ -59,7 +53,6 @@ class Module(models.Model):
         verbose_name = 'Módulo'
         verbose_name_plural = 'Módulos'
         ordering = ['menu', 'order', 'name']
-
 
 """
 Modelo GroupModulePermission: Asocia grupos con módulos y define qué permisos
@@ -98,11 +91,6 @@ class GroupModulePermission(models.Model):
 """
 Modelo User: Extiende el usuario estándar de Django para añadir campos personalizados.
 Utiliza email como identificador principal para login en lugar del username.
-
-Ejemplos:
-1. admin (email: admin@empresa.com) - Administrador del sistema
-2. jperez (email: jperez@empresa.com) - Usuario con roles de Vendedor y Contador
-3. mgarcia (email: mgarcia@empresa.com) - Usuario con roles de Contador y Auditor
 """
 class User(AbstractUser, PermissionsMixin):
     dni = models.CharField(verbose_name='Cédula o RUC', max_length=13, blank=True, null=True)
@@ -113,12 +101,9 @@ class User(AbstractUser, PermissionsMixin):
         blank=True,
         null=True
     )
-    
     email = models.EmailField('Email', unique=True)
     direction = models.CharField('Dirección', max_length=200, blank=True, null=True)
     phone = models.CharField('Teléfono', max_length=50, blank=True, null=True)
-  
- 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username", "first_name", "last_name"]
 
@@ -129,23 +114,7 @@ class User(AbstractUser, PermissionsMixin):
             ("change_userprofile", "Cambiar perfil de Usuario"),
             ("change_userpassword", "Cambiar contraseña de Usuario"),
         )
-    
-    # def save(self, *args, **kwargs):
-    #     def password_needs_hashing(password):
-    #         # Detecta si la contraseña ya está hasheada
-    #         return not password.startswith('pbkdf2_') and not password.startswith('argon2') and not password.startswith('bcrypt')
 
-    #     if self.pk is None:
-    #         if password_needs_hashing(self.password):
-    #             self.set_password(self.password)
-    #     else:
-    #         old = User.objects.get(pk=self.pk)
-    #         if self.password != old.password and password_needs_hashing(self.password):
-    #             self.set_password(self.password)
-
-    #     super().save(*args, **kwargs)
-
-            
     @property
     def get_full_name(self):
         return f"{self.first_name} {self.last_name}"
@@ -156,25 +125,25 @@ class User(AbstractUser, PermissionsMixin):
     def get_short_name(self):
         return self.username
 
-    def get_group_session(self):
-        request = get_current_request()
-        print("request==>",request)
-        return Group.objects.get(pk=request.session['group_id'])
-
-    def set_group_session(self):
-        request = get_current_request()
-
-        if 'group' not in request.session:
-
-            groups = request.user.groups.all().order_by('id')
-
-            if groups.exists():
-                request.session['group'] = groups.first()
-                request.session['group_id'] = request.session['group'].id
-
-    
     def get_image(self):
         if self.image:
             return self.image.url
         else:
             return '/static/img/usuario_anonimo.png'
+
+class AuditUser(models.Model):
+    usuario = models.ForeignKey(User, verbose_name='Usuario',on_delete=models.PROTECT)
+    tabla = models.CharField(max_length=100, verbose_name='Tabla')
+    registroid = models.IntegerField(verbose_name='Registro Id')
+    accion = models.CharField(choices=AccionChoices, max_length=15, verbose_name='Accion')
+    fecha = models.DateField(verbose_name='Fecha')
+    hora = models.TimeField(verbose_name='Hora')
+    estacion = models.CharField(max_length=100, verbose_name='Estacion')
+
+    def __str__(self):
+        return "{} - {} [{}]".format(self.usuario.username, self.tabla, self.accion)
+
+    class Meta:
+        verbose_name = 'Auditoria Usuario '
+        verbose_name_plural = 'Auditorias Usuarios'
+        ordering = ('-fecha', 'hora')

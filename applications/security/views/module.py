@@ -7,7 +7,6 @@ from applications.security.models import Module
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.db.models import Q
 
-
 class ModuleListView(PermissionMixin, ListViewMixin, ListView):
     template_name = 'security/modules/list.html'
     model = Module

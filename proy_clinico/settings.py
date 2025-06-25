@@ -40,8 +40,8 @@ INSTALLED_APPS = [
 ]
 # Aplicaciones de terceros
 THIRD_PARTY_APPS = [
-    'django_extensions', 
-    'tailwind', 
+    'django_extensions',
+    'tailwind',
     'theme',
     'django_browser_reload', 
 
@@ -49,6 +49,7 @@ THIRD_PARTY_APPS = [
 # Aplicaciones propias
 LOCAL_APPS = [
     'applications.security.apps.SecurityConfig',
+    'applications.core.apps.CoreConfig',
     'applications.doctor.apps.DoctorConfig',
 ]
 INSTALLED_APPS = INSTALLED_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -130,12 +131,14 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
 LANGUAGE_CODE = 'es-ec'
-
-TIME_ZONE = 'UTC'
-
+TIME_ZONE = 'America/Guayaquil'  # Mejor que UTC para Ecuador
 USE_I18N = True
-
+USE_L10N = False  # ← CLAVE: Deshabilita localización de números
 USE_TZ = True
+
+# Opcional: Configuraciones específicas
+DECIMAL_SEPARATOR = '.'
+DATE_FORMAT = 'd/m/Y'
 
 
 # Static files (CSS, JavaScript, Images)
@@ -149,7 +152,7 @@ MEDIA_URL = '/media/' # url de imagenes
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 AUTH_USER_MODEL = 'security.User'
-LOGIN_URL = '/auth/signin'
+LOGIN_URL = '/security/signin'
 #SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 # SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
