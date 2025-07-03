@@ -1,8 +1,5 @@
 from django.db import models
-
-# security/models.py
 from django.contrib.auth.models import AbstractUser, Group, Permission, PermissionsMixin
-from django.db import models
 from django.db.models import UniqueConstraint
 from applications.security.utils.audit_user import AccionChoices
 
@@ -92,7 +89,7 @@ class GroupModulePermission(models.Model):
 Modelo User: Extiende el usuario estándar de Django para añadir campos personalizados.
 Utiliza email como identificador principal para login en lugar del username.
 """
-class User(AbstractUser, PermissionsMixin):
+class User(AbstractUser):
     dni = models.CharField(verbose_name='Cédula o RUC', max_length=13, blank=True, null=True)
     image = models.ImageField(
         verbose_name='Imagen de perfil',
@@ -114,11 +111,12 @@ class User(AbstractUser, PermissionsMixin):
             ("change_userprofile", "Cambiar perfil de Usuario"),
             ("change_userpassword", "Cambiar contraseña de Usuario"),
         )
-
-    @property
+    
     def get_full_name(self):
         return f"{self.first_name} {self.last_name}"
 
+
+    @property
     def get_groups(self):
         return self.groups.all()
 

@@ -101,11 +101,11 @@ WSGI_APPLICATION = 'proy_clinico.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'medicos',
+        'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': '123',
-        'HOST': 'localhost',  # o la IP del servidor de base de datos
-        'PORT': '5432',        # puerto por defecto de PostgreSQL
+        'PASSWORD': 'Laslolis101',
+        'HOST': 'db.jidycdunvjrktjzwuzqi.supabase.co',  # o la IP del servidor de base de datos
+        'PORT': '5432',     # puerto por defecto de PostgreSQL
     }
 }
 # Password validation

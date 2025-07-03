@@ -129,7 +129,9 @@
             </div>
         </div>
     </section>
+    <div id="test">
 
+    </div>
     {% include 'fragments/delete.html' %}
    <script>
 function openDeleteModal(id, name) {
@@ -163,3 +165,8 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 {% endblock %}
+
+
+{% block Script %}
+<script src="{% static 'validation.js' %}"></script>
+{% endblock Script %}

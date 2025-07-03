@@ -10,4 +10,5 @@ urlpatterns = [
     path('atencion_create/', AtencionCreateView.as_view(), name="atencion_create"),
     path('atencion_update/<int:pk>/', AtencionUpdateView.as_view(), name="atencion_update"),
     path('atencion_delete/<int:pk>/', AtencionDeleteView.as_view(), name="atencion_delete"),
+
 ]
