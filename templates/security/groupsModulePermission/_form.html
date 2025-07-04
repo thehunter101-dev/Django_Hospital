@@ -1,0 +1,19 @@
+<form method="post"
+      hx-post="{% if create %}{% url 'security:gmp_create_htmx' group.id module.id %}{% else %}{% url 'security:gmp_edit' object.id %}{% endif %}"      hx-target="#permission-list"
+      hx-swap="innerHTML">
+  {% csrf_token %}
+  {{ form.as_p }}
+
+  <div class="mt-4 flex gap-2">
+    <button type="submit"
+            class="inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-md font-medium hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors">
+      <span class="text-xl"></span> Guardar
+    </button>
+
+    <button type="button"
+            onclick="window.location.reload()"
+            class="px-4 py-2 bg-red-600 text-white rounded-md font-medium hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors">
+      <span class="text-xl"></span> Cancelar
+    </button>
+  </div>
+</form>

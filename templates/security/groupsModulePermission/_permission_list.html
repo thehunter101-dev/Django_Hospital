@@ -1,8 +1,44 @@
-<!--_permision_list-->
-<ul>
+<!-- _permission_list.html -->
+<div class="flex flex-col gap-2 h-70 overflow-y-auto">
   {% for perm in permissions %}
-    <li class="p-1">{{ perm.name }} ({{ perm.codename }})</li>
+    <div title="{{ perm.codename }}" class="badge_blue_in">{{ perm.name }}</div>
   {% empty %}
-    <li class="text-gray-400">Sin permisos asignados</li>
+    <div class="badge_disable">Sin permisos asignados</div>
   {% endfor %}
-</ul>
+</div>
+
+{% if gmp %}
+  <!-- Si existe el permiso, mostrar botones de editar y eliminar -->
+  <div class="mt-4 flex gap-2">
+    <button
+      hx-get="{% url 'security:gmp_edit' gmp.id %}"
+      hx-target="#permission-list"
+      hx-swap="innerHTML"
+      class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
+      Editar Permisos <span text-xl></span>
+    </button>
+
+    <button
+      hx-post="{% url 'security:gmp_delete' gmp.id %}"
+      hx-target="#permission-list"
+      hx-swap="innerHTML"
+      hx-confirm="¿Estás seguro de eliminar este permiso?"
+      class="px-4 py-2 bg-red-600 text-white rounded-md font-medium hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors">
+      Eliminar Permiso <span text-xl></span>
+    </button>
+
+    <button
+      hx-get="{% url 'security:gmp_create_htmx' group.id module.id %}"
+      hx-target="#permission-list"
+      hx-swap="innerHTML"
+      class="px-4 py-2 bg-green-600 text-white rounded-md font-medium hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors">
+      Agregar Permiso <span text-xl></span>
+    </button>
+  </div>
+
+{% else %}
+  <!-- Si NO existe, permitir crearlo -->
+  <div class="mt-4 text-sm text-gray-400 italic">
+    No se ha creado una relación de permisos para este grupo y módulo.
+  </div>
+{% endif %}

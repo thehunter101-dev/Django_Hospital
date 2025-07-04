@@ -50,12 +50,76 @@ def htmx_permission_list(request, group_id, module_id):
         gmp = GroupModulePermission.objects.get(group=group, module=module)
         permissions = gmp.permissions.all().order_by("name")
     except GroupModulePermission.DoesNotExist:
+        gmp = None
         permissions = []
     return render(request, "security/groupsModulePermission/_permission_list.html", {
         "permissions": permissions,
         "group": group,
         "module": module,
+        "gmp": gmp,
     })
+
+class GroupModulePermissionHTMXEditView(PermissionMixin, UpdateView):
+    model = GroupModulePermission
+    form_class = GroupModulePermissionForm
+    template_name = "security/groupsModulePermission/_form.html"  # formulario parcial
+    permission_required = 'change_groupmodulepermission'
+
+    def form_valid(self, form):
+        self.object = form.save()
+        return render(self.request, "security/groupsModulePermission/_permission_list.html", {
+            "permissions": self.object.permissions.all().order_by("name"),
+            "group": self.object.group,
+            "module": self.object.module,
+            "gmp": self.object,
+        })
+
+class GroupModulePermissionHTMXDeleteView(PermissionMixin, View):
+    permission_required = 'delete_groupmodulepermission'
+
+    def post(self, request, pk):
+        gmp = get_object_or_404(GroupModulePermission, pk=pk)
+        gmp.delete()
+        return render(request, "security/groupsModulePermission/_permission_list.html", {
+            "permissions": [],
+            "group": gmp.group,
+            "module": gmp.module,
+            "gmp": None,
+        })
+
+class GroupModulePermissionHTMXCreateView(PermissionMixin, View):
+    permission_required = 'add_groupmodulepermission'
+
+    def get(self, request, group_id, module_id):
+        group = get_object_or_404(Group, pk=group_id)
+        module = get_object_or_404(Module, pk=module_id)
+        form = GroupModulePermissionForm(initial={"group": group, "module": module})
+        return render(request, "security/groupsModulePermission/_form.html", {
+            "form": form,
+            "group": group,
+            "module": module,
+            "create": True,
+        })
+
+    def post(self, request, group_id, module_id):
+        group = get_object_or_404(Group, pk=group_id)
+        module = get_object_or_404(Module, pk=module_id)
+        form = GroupModulePermissionForm(request.POST)
+        if form.is_valid():
+            gmp = form.save()
+            return render(request, "security/groupsModulePermission/_permission_list.html", {
+                "permissions": gmp.permissions.all().order_by("name"),
+                "group": gmp.group,
+                "module": gmp.module,
+                "gmp": gmp,
+            })
+        # en caso de error
+        return render(request, "security/groupsModulePermission/_form.html", {
+            "form": form,
+            "group": group,
+            "module": module,
+            "create": True,
+        })
 
 
 # --- CRUD CLASSES SIGUEN IGUAL ---

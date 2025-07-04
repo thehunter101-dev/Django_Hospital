@@ -5,7 +5,10 @@
     <link rel="stylesheet" href="{% static 'customStyle.css' %}" type="text/css" media="screen" />
 {% endblock styles %}
 {% block content %}
-<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+  <form>
+
+    {% csrf_token %}
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
   <!-- Lista de Grupos -->
   <div>
     <h2 class="text-xl font-bold mb-2">Grupos</h2>
@@ -32,6 +35,12 @@
     </div>
   </div>
 </div>
+
+
+  </form>
+
+
+  <a class="px-4 py-2 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors" href="{% url 'home' %}">Inicio</a>
 {% endblock %}
 
 {% block Script %}
