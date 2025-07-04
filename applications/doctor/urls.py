@@ -2,6 +2,7 @@ from django.urls import path
 
 from applications.doctor.views.atencion_medica import AtencionListView, AtencionCreateView, AtencionUpdateView, \
     AtencionDeleteView
+from applications.doctor.views.calendario import calendario_dashboard
 
 
 # from applications.doctor.views.detalle_pago import DetallePagoCreateView, DetallePagoDeleteView, DetallePagoListView, DetallePagoUpdateView
@@ -42,5 +43,6 @@ urlpatterns = [
     path('citas/<int:pk>/cambiar-estado/', cita_medica_change_estado, name='cita_medica_change_estado'),
     path('citas/hoy/', citas_hoy, name='citas_hoy'),
     path('citas/fecha/<str:fecha>/', citas_por_fecha, name='citas_por_fecha'),
+    path('calendario',calendario_dashboard,name = 'calendario'),
 
 ]
