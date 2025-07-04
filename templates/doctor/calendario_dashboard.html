@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario Médico Automático</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'medical-primary': '#8B5CF6',
+                        'medical-secondary': '#7C3AED',
+                        'medical-accent': '#06D6A0',
+                        'medical-warning': '#F59E0B',
+                        'medical-danger': '#EF4444',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 min-h-screen p-5">
+    <div class="max-w-6xl mx-auto bg-gray-800 rounded-3xl shadow-2xl overflow-hidden border border-gray-700">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-medical-primary to-medical-secondary text-white p-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-light mb-3">📅 Calendario Médico Automático</h1>
+            <p class="text-lg opacity-90 mb-4">Sistema de gestión de citas con disponibilidad en tiempo real</p>
+            <div class="bg-white bg-opacity-10 rounded-xl p-3 inline-block backdrop-blur-sm">
+                <strong class="text-white">Bienvenido, Usuario Demo</strong>
+                <span class="text-gray-100"> - Paciente</span>
+            </div>
+        </div>
+
+        <!-- Alert -->
+        <div class="mx-8 mt-5 p-4 bg-blue-900/30 border border-blue-500/50 rounded-lg backdrop-blur-sm">
+            <strong class="text-blue-300">Información:</strong>
+            <span class="text-blue-200"> Esta es una demostración del sistema de calendario médico.</span>
+        </div>
+
+        <!-- Controls -->
+        <div class="bg-gray-700/50 p-5 flex flex-col lg:flex-row justify-between items-center gap-4 backdrop-blur-sm">
+            <div class="flex flex-col sm:flex-row gap-4 items-center">
+                <div class="flex items-center gap-2">
+                    <label for="year" class="font-medium text-gray-200">Año:</label>
+                    <select id="year" class="px-4 py-2 border-2 border-gray-600 rounded-xl text-base bg-gray-800 text-gray-200 cursor-pointer transition-all duration-300 focus:border-medical-primary focus:outline-none focus:ring-4 focus:ring-purple-500/30">
+                        <option value="2024">2024</option>
+                        <option value="2025" selected>2025</option>
+                        <option value="2026">2026</option>
+                    </select>
+                </div>
+                
+                <div class="flex items-center gap-2">
+                    <label for="month" class="font-medium text-gray-200">Mes:</label>
+                    <select id="month" class="px-4 py-2 border-2 border-gray-600 rounded-xl text-base bg-gray-800 text-gray-200 cursor-pointer transition-all duration-300 focus:border-medical-primary focus:outline-none focus:ring-4 focus:ring-purple-500/30">
+                        <option value="1">Enero</option>
+                        <option value="2">Febrero</option>
+                        <option value="3">Marzo</option>
+                        <option value="4">Abril</option>
+                        <option value="5">Mayo</option>
+                        <option value="6">Junio</option>
+                        <option value="7" selected>Julio</option>
+                        <option value="8">Agosto</option>
+                        <option value="9">Septiembre</option>
+                        <option value="10">Octubre</option>
+                        <option value="11">Noviembre</option>
+                        <option value="12">Diciembre</option>
+                    </select>
+                </div>
+                
+                <button class="px-6 py-3 bg-medical-primary text-white rounded-xl font-medium transition-all duration-300 hover:bg-medical-secondary hover:-translate-y-1 hover:shadow-lg hover:shadow-purple-500/25" onclick="cargarCalendario()">
+                    Generar Calendario
+                </button>
+            </div>
+
+            <!-- Legend -->
+            <div class="flex flex-wrap gap-5 text-sm">
+                <div class="flex items-center gap-2">
+                    <div class="w-5 h-5 bg-medical-accent rounded-full border-2 border-gray-300"></div>
+                    <span class="text-gray-200">Disponible</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="w-5 h-5 bg-cyan-400 rounded-full border-2 border-gray-300"></div>
+                    <span class="text-gray-200">Ocupado</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="w-5 h-5 bg-gray-500 rounded-full border-2 border-gray-300"></div>
+                    <span class="text-gray-200">Sin Atención</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="w-5 h-5 bg-medical-warning rounded-full border-2 border-gray-300"></div>
+                    <span class="text-gray-200">Día Actual</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <div id="summary" class="bg-gray-700/30 p-5 mx-8 my-5 rounded-xl grid grid-cols-2 lg:grid-cols-4 gap-4 backdrop-blur-sm">
+            <div class="text-center p-4 bg-gray-800/60 rounded-lg shadow-sm border border-gray-600/50 backdrop-blur-sm">
+                <div class="text-3xl font-bold text-gray-100 mb-1">31</div>
+                <div class="text-gray-300">Total Días</div>
+            </div>
+            <div class="text-center p-4 bg-gray-800/60 rounded-lg shadow-sm border border-gray-600/50 backdrop-blur-sm">
+                <div class="text-3xl font-bold text-medical-accent mb-1">18</div>
+                <div class="text-gray-300">Días Disponibles</div>
+            </div>
+            <div class="text-center p-4 bg-gray-800/60 rounded-lg shadow-sm border border-gray-600/50 backdrop-blur-sm">
+                <div class="text-3xl font-bold text-cyan-400 mb-1">8</div>
+                <div class="text-gray-300">Días Ocupados</div>
+            </div>
+            <div class="text-center p-4 bg-gray-800/60 rounded-lg shadow-sm border border-gray-600/50 backdrop-blur-sm">
+                <div class="text-3xl font-bold text-gray-400 mb-1">5</div>
+                <div class="text-gray-300">Sin Atención</div>
+            </div>
+        </div>
+
+        <!-- Calendar -->
+        <div class="p-8">
+            <div id="calendar-content">
+                <!-- Calendar Header -->
+                <div class="grid grid-cols-7 gap-px mb-px bg-gray-600">
+                    <div class="bg-gray-900 text-gray-100 p-4 text-center font-bold text-sm">Lun</div>
+                    <div class="bg-gray-900 text-gray-100 p-4 text-center font-bold text-sm">Mar</div>
+                    <div class="bg-gray-900 text-gray-100 p-4 text-center font-bold text-sm">Mié</div>
+                    <div class="bg-gray-900 text-gray-100 p-4 text-center font-bold text-sm">Jue</div>
+                    <div class="bg-gray-900 text-gray-100 p-4 text-center font-bold text-sm">Vie</div>
+                    <div class="bg-gray-900 text-gray-100 p-4 text-center font-bold text-sm">Sáb</div>
+                    <div class="bg-gray-900 text-gray-100 p-4 text-center font-bold text-sm">Dom</div>
+                </div>
+                
+                <!-- Calendar Grid -->
+                <div id="calendar-grid" class="grid grid-cols-7 gap-px bg-gray-600">
+                    <!-- Aquí se generará el calendario dinámicamente -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para ver slots de tiempo -->
+    <div id="slotsModal" class="fixed inset-0 bg-black bg-opacity-70 z-50 hidden backdrop-blur-sm">
+        <div class="bg-gray-800 mx-auto mt-12 p-8 rounded-2xl w-11/12 max-w-2xl shadow-2xl border border-gray-600">
+            <div class="flex justify-between items-center mb-5 pb-4 border-b-2 border-gray-600">
+                <h2 id="modal-title" class="text-2xl font-semibold text-gray-100">Horarios Disponibles</h2>
+                <span class="text-3xl font-bold cursor-pointer text-gray-400 hover:text-gray-200 transition-colors duration-300" onclick="cerrarModal()">&times;</span>
+            </div>
+            <div id="modal-body">
+                <div id="time-slots" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mt-5">
+                    <!-- Time slots will be generated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos de ejemplo para el calendario
+        const calendarioData = {
+            2025: {
+                7: { // Julio
+                    diasEnMes: 31,
+                    primerDiaSemana: 1, // Martes (0=Domingo, 1=Lunes, etc.)
+                    dias: {}
+                }
+            }
+        };
+
+        // Generar datos de ejemplo para julio 2025
+        function generarDatosEjemplo() {
+            const dias = calendarioData[2025][7].dias;
+            const hoy = new Date();
+            const diaActual = hoy.getDate();
+            const mesActual = hoy.getMonth() + 1;
+            const añoActual = hoy.getFullYear();
+            
+            for (let i = 1; i <= 31; i++) {
+                let estado, slots = [];
+                
+                // Determinar si es el día actual
+                const esDiaActual = (i === diaActual && 7 === mesActual && 2025 === añoActual);
+                
+                // Simular diferentes estados
+                if (i % 7 === 0 || i % 7 === 6) { // Fines de semana
+                    estado = 'sin_atencion';
+                } else if (i % 5 === 0) { // Algunos días ocupados
+                    estado = 'ocupado';
+                    slots = [
+                        { hora: '08:00', estado: 'ocupado' },
+                        { hora: '09:00', estado: 'ocupado' },
+                        { hora: '10:00', estado: 'disponible' },
+                        { hora: '11:00', estado: 'disponible' },
+                        { hora: '14:00', estado: 'ocupado' },
+                        { hora: '15:00', estado: 'disponible' }
+                    ];
+                } else {
+                    estado = 'disponible';
+                    slots = [
+                        { hora: '08:00', estado: 'disponible' },
+                        { hora: '09:00', estado: 'disponible' },
+                        { hora: '10:00', estado: 'disponible' },
+                        { hora: '11:00', estado: 'disponible' },
+                        { hora: '14:00', estado: 'disponible' },
+                        { hora: '15:00', estado: 'disponible' }
+                    ];
+                }
+                
+                dias[i] = {
+                    estado: estado,
+                    slots: slots,
+                    slots_disponibles: slots.filter(s => s.estado === 'disponible').length,
+                    esDiaActual: esDiaActual
+                };
+            }
+        }
+
+        // Función para generar el calendario
+        function generarCalendario(year, month) {
+            const calendarGrid = document.getElementById('calendar-grid');
+            calendarGrid.innerHTML = '';
+            
+            const data = calendarioData[year] && calendarioData[year][month];
+            if (!data) {
+                calendarGrid.innerHTML = '<div class="col-span-7 text-center p-12 text-gray-400">No hay datos disponibles para este mes</div>';
+                return;
+            }
+            
+            // Agregar celdas vacías para alineación
+            for (let i = 0; i < data.primerDiaSemana; i++) {
+                const emptyCell = document.createElement('div');
+                emptyCell.className = 'bg-gray-700 min-h-[120px] md:min-h-[100px] p-2';
+                calendarGrid.appendChild(emptyCell);
+            }
+            
+            // Agregar días del mes
+            for (let dia = 1; dia <= data.diasEnMes; dia++) {
+                const diaData = data.dias[dia];
+                const dayCell = document.createElement('div');
+                
+                // Aplicar clases CSS basadas en el estado
+                let clases = 'bg-gray-800 min-h-[120px] md:min-h-[100px] p-2 cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-purple-500/20 flex flex-col relative border border-gray-600';
+                
+                if (diaData.esDiaActual) {
+                    clases += ' !bg-gradient-to-br !from-amber-500 !to-orange-600 !border-2 !border-amber-400 !text-white shadow-lg shadow-amber-500/30';
+                } else if (diaData.estado === 'disponible') {
+                    clases += ' bg-gradient-to-br from-emerald-900/50 to-teal-900/50 border-2 border-medical-accent/50 text-gray-100 hover:border-medical-accent';
+                } else if (diaData.estado === 'ocupado') {
+                    clases += ' bg-gradient-to-br from-cyan-900/50 to-blue-900/50 border-2 border-cyan-400/50 text-gray-100 hover:border-cyan-400';
+                } else if (diaData.estado === 'sin_atencion') {
+                    clases += ' bg-gradient-to-br from-gray-800 to-gray-900 border-2 border-gray-500/50 text-gray-400';
+                }
+                
+                dayCell.className = clases;
+                dayCell.onclick = () => mostrarSlots(dia, diaData);
+                
+                // Contenido de la celda
+                let statusText = '';
+                let statusClasses = 'text-xs px-2 py-1 rounded-full text-center mt-auto font-medium ';
+                
+                if (diaData.esDiaActual) {
+                    statusText = diaData.estado === 'disponible' ? 'Disponible' :
+                                diaData.estado === 'ocupado' ? 'Ocupado' : 'Sin Atención';
+                    statusClasses += 'bg-amber-600/80 text-white backdrop-blur-sm';
+                } else if (diaData.estado === 'disponible') {
+                    statusText = 'Disponible';
+                    statusClasses += 'bg-medical-accent/80 text-gray-900 backdrop-blur-sm';
+                } else if (diaData.estado === 'ocupado') {
+                    statusText = 'Ocupado';
+                    statusClasses += 'bg-cyan-400/80 text-gray-900 backdrop-blur-sm';
+                } else {
+                    statusText = 'Sin Atención';
+                    statusClasses += 'bg-gray-500/80 text-gray-200 backdrop-blur-sm';
+                }
+                
+                let slotsInfo = '';
+                let slotsClasses = 'text-xs mt-1 ';
+                
+                if (diaData.esDiaActual) {
+                    slotsClasses += 'text-amber-100';
+                } else if (diaData.estado === 'disponible') {
+                    slotsClasses += 'text-emerald-300';
+                } else if (diaData.estado === 'ocupado') {
+                    slotsClasses += 'text-cyan-300';
+                } else {
+                    slotsClasses += 'text-gray-400';
+                }
+                
+                if (diaData.estado === 'disponible') {
+                    slotsInfo = `${diaData.slots_disponibles} slots libres`;
+                } else if (diaData.estado === 'ocupado') {
+                    slotsInfo = `${diaData.slots_disponibles} de ${diaData.slots.length} libres`;
+                } else {
+                    slotsInfo = 'No hay consultas';
+                }
+                
+                dayCell.innerHTML = `
+                    <div class="font-bold text-base mb-1 ${diaData.esDiaActual ? 'text-white' : ''}">${dia}</div>
+                    <div class="${statusClasses}">${statusText}</div>
+                    <div class="${slotsClasses}">${slotsInfo}</div>
+                `;
+                
+                calendarGrid.appendChild(dayCell);
+            }
+        }
+
+        // Función para cargar calendario
+        function cargarCalendario() {
+            const year = parseInt(document.getElementById('year').value);
+            const month = parseInt(document.getElementById('month').value);
+            
+            if (!year || !month) {
+                alert('Por favor seleccione año y mes');
+                return;
+            }
+            
+            generarCalendario(year, month);
+        }
+
+        function mostrarSlots(dia, diaData) {
+            if (diaData.estado === 'sin_atencion') {
+                alert('No hay atención médica este día');
+                return;
+            }
+            
+            const modal = document.getElementById('slotsModal');
+            const modalTitle = document.getElementById('modal-title');
+            const timeSlots = document.getElementById('time-slots');
+            
+            modalTitle.textContent = `Horarios para el día ${dia}`;
+            timeSlots.innerHTML = '';
+            
+            diaData.slots.forEach(slot => {
+                const slotElement = document.createElement('div');
+                let slotClasses = 'p-3 text-center rounded-lg cursor-pointer transition-all duration-300 font-medium border-2 ';
+                
+                if (slot.estado === 'disponible') {
+                    slotClasses += 'bg-emerald-900/50 border-medical-accent text-emerald-200 hover:bg-medical-accent hover:text-gray-900 hover:scale-105 backdrop-blur-sm';
+                    slotElement.onclick = () => reservarSlot(dia, slot.hora);
+                } else {
+                    slotClasses += 'bg-red-900/50 border-red-500 text-red-300 cursor-not-allowed backdrop-blur-sm';
+                }
+                
+                slotElement.className = slotClasses;
+                slotElement.textContent = slot.hora;
+                
+                timeSlots.appendChild(slotElement);
+            });
+            
+            modal.classList.remove('hidden');
+        }
+
+        function reservarSlot(dia, hora) {
+            if (confirm(`¿Desea reservar la cita para el día ${dia} a las ${hora}?`)) {
+                alert(`Cita reservada exitosamente para el día ${dia} a las ${hora}`);
+                cerrarModal();
+                
+                // Actualizar el estado del slot
+                const year = parseInt(document.getElementById('year').value);
+                const month = parseInt(document.getElementById('month').value);
+                const diaData = calendarioData[year][month].dias[dia];
+                
+                // Encontrar y actualizar el slot
+                const slot = diaData.slots.find(s => s.hora === hora);
+                if (slot) {
+                    slot.estado = 'ocupado';
+                    diaData.slots_disponibles--;
+                    
+                    // Si no quedan slots disponibles, cambiar el estado del día
+                    if (diaData.slots_disponibles === 0) {
+                        diaData.estado = 'ocupado';
+                    }
+                }
+                
+                // Regenerar el calendario
+                generarCalendario(year, month);
+            }
+        }
+
+        function cerrarModal() {
+            document.getElementById('slotsModal').classList.add('hidden');
+        }
+
+        // Cerrar modal al hacer clic fuera
+        window.onclick = function(event) {
+            const modal = document.getElementById('slotsModal');
+            if (event.target === modal) {
+                cerrarModal();
+            }
+        }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            generarDatosEjemplo();
+            cargarCalendario();
+        });
+    </script>
+</body>
+</html>
