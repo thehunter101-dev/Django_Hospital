@@ -1,0 +1,13 @@
+<!--_group_list.html-->
+<div id="Grupos" class="flex flex-col gap-2">
+  {% for group in groups %}
+    <div
+        hx-get="{% url 'security:gmp_modules_list' group.id %}"
+        hx-target="#module-list"
+        hx-swap="innerHTML"
+        hx-on::after-on-load="replace_badge('Seleccione un modulo','redL','permission-list'); marcaGrupo(this,'Grupos')"
+        class="badge">
+        {{ group.name }}
+    </div>
+  {% endfor %}
+</div>

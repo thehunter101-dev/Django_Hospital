@@ -1,0 +1,8 @@
+<!--_permision_list-->
+<ul>
+  {% for perm in permissions %}
+    <li class="p-1">{{ perm.name }} ({{ perm.codename }})</li>
+  {% empty %}
+    <li class="text-gray-400">Sin permisos asignados</li>
+  {% endfor %}
+</ul>

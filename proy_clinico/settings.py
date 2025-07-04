@@ -43,7 +43,8 @@ THIRD_PARTY_APPS = [
     'django_extensions',
     'tailwind',
     'theme',
-    'django_browser_reload', 
+    'django_browser_reload',
+    'django_htmx'
 
 ]
 # Aplicaciones propias
@@ -56,9 +57,9 @@ INSTALLED_APPS = INSTALLED_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 TAILWIND_APP_NAME = 'theme'
 
-NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd" 
 
 MIDDLEWARE = [
+    'django_htmx.middleware.HtmxMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

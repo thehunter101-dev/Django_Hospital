@@ -1,0 +1,15 @@
+<!--_module_list-->
+<div id="Modules" data-modules-exist="{{ exist_modules|yesno:'true,false'}}" class="flex flex-col gap-2">
+  {% for module in modules %}
+    <div
+        hx-get="{% url 'security:gmp_permission_list' group_id=group.id module_id=module.id %}"
+        hx-target="#permission-list"
+        hx-swap="innerHTML"
+        hx-on::after-on-load="marcaGrupo(this,'Modules')"
+        class="badge">
+        {{ module.name }}
+    </div>
+  {% empty %}
+    <li class="badge_orange">Sin modulos asignados</li>
+  {% endfor %}
+</div>

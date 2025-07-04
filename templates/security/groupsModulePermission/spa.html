@@ -1,0 +1,39 @@
+<!-- templates/security/groupsModulePermission/spa.html -->
+{% extends 'home.html' %}
+{% load static %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'customStyle.css' %}" type="text/css" media="screen" />
+{% endblock styles %}
+{% block content %}
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+  <!-- Lista de Grupos -->
+  <div>
+    <h2 class="text-xl font-bold mb-2">Grupos</h2>
+    <div id="group-list">
+      {% include 'security/groupsModulePermission/_group_list.html' %}
+    </div>
+  </div>
+
+  <!-- Lista de Módulos del Grupo seleccionado -->
+  <div>
+    <h2 class="text-xl font-bold mb-2">Módulos del Grupo</h2>
+    <div id="module-list">
+      <!-- Aquí se carga dinámicamente -->
+      <div class="text-gray-400">Seleccione un grupo...</div>
+    </div>
+  </div>
+
+  <!-- Permisos del Módulo seleccionado -->
+  <div>
+    <h2 class="text-xl font-bold mb-2">Permisos del Módulo</h2>
+    <div id="permission-list" hx-swap-oob="true">
+      <!-- Aquí se carga dinámicamente -->
+      <div class="text-gray-400">Seleccione un módulo...</div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block Script %}
+    <script type="text/javascript" src="{% static 'Utils.js' %}"></script>
+{% endblock Script %}
