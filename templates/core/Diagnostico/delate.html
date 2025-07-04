@@ -1,0 +1,391 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Eliminar Diagnóstico{% endblock %}
+
+{% block content %}
+<section class="dark:bg-principal min-h-screen flex items-center justify-center py-12 px-4">
+    <div class="w-full max-w-lg" data-aos="fade-up" data-aos-delay="200">
+        <!-- Contenedor principal del modal de confirmación -->
+        <div class="bg-white dark:bg-secundario rounded-3xl p-8 shadow-2xl border border-gray-200 dark:border-gray-700">
+            
+            <!-- Icono de advertencia -->
+            <div class="text-center mb-6">
+                <div class="bg-red-100 dark:bg-red-900/30 rounded-full w-24 h-24 mx-auto flex items-center justify-center mb-4 animate-pulse">
+                    <i class="fa-solid fa-exclamation-triangle text-5xl text-red-500"></i>
+                </div>
+            </div>
+
+            <!-- Título de confirmación -->
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-3">
+                    Eliminar Diagnóstico
+                </h2>
+                <div class="h-1 bg-gradient-to-r from-red-500 to-pink-500 rounded-full w-32 mx-auto"></div>
+            </div>
+
+            <!-- Mensaje de confirmación -->
+            <div class="text-center mb-8">
+                <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6">
+                    <div class="flex items-center justify-center mb-4">
+                        <div class="bg-purple-100 dark:bg-purple-900/30 rounded-lg p-3 mr-4">
+                            <i class="fa-solid fa-clipboard-list text-2xl text-purple-600 dark:text-purple-400"></i>
+                        </div>
+                        <div class="text-left">
+                            <p class="text-sm text-gray-600 dark:text-gray-400 uppercase tracking-wide font-medium">
+                                Diagnóstico a eliminar
+                            </p>
+                            <p class="text-lg font-bold text-gray-900 dark:text-white">
+                                {% if object.codigo %}
+                                    {{ object.codigo }} - {{ object.descripcion }}
+                                {% else %}
+                                    {{ object.descripcion }}
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="border-t border-red-200 dark:border-red-800 pt-4">
+                        <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+                            {{ description }}
+                        </p>
+                        <div class="flex items-center justify-center text-sm text-red-600 dark:text-red-400">
+                            <i class="fa-solid fa-info-circle mr-2"></i>
+                            <span class="font-medium">Esta acción no se puede deshacer</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulario de confirmación -->
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+                
+                <!-- Botones de acción -->
+                <div class="flex flex-col space-y-3">
+                    <!-- Botón Eliminar -->
+                    <button type="submit" 
+                        class="w-full bg-red-600 hover:bg-red-700 text-white py-4 px-6 rounded-lg 
+                               flex items-center justify-center transition-all duration-300 font-bold text-lg
+                               shadow-lg hover:shadow-xl transform hover:scale-105 focus:outline-none 
+                               focus:ring-4 focus:ring-red-300 dark:focus:ring-red-800
+                               border-2 border-red-600 hover:border-red-700">
+                        <i class="fa-solid fa-trash mr-3 text-xl"></i>
+                        Sí, {{ grabar|lower }}
+                    </button>
+                    
+                    <!-- Botón Cancelar -->
+                    <a href="{{ back_url }}" 
+                        class="w-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 
+                               text-gray-700 dark:text-gray-300 py-4 px-6 rounded-lg 
+                               flex items-center justify-center transition-all duration-300 font-medium text-lg
+                               shadow-lg hover:shadow-xl transform hover:scale-105 focus:outline-none 
+                               focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600
+                               border-2 border-gray-300 dark:border-gray-600 hover:border-gray-400">
+                        <i class="fa-solid fa-arrow-left mr-3 text-xl"></i>
+                        No, cancelar
+                    </a>
+                </div>
+            </form>
+
+            <!-- Información de seguridad específica para diagnósticos -->
+            <div class="mt-8 p-4 bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-400 rounded-r-lg">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0">
+                        <i class="fa-solid fa-shield-alt text-yellow-500 text-lg"></i>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-yellow-800 dark:text-yellow-200 font-medium text-sm">
+                            Impacto de la eliminación
+                        </h3>
+                        <div class="mt-2 text-yellow-700 dark:text-yellow-300 text-xs">
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Este diagnóstico no estará disponible para nuevas consultas</li>
+                                <li>Los historiales médicos existentes mantendrán la referencia</li>
+                                <li>Se recomienda desactivar en lugar de eliminar si hay dudas</li>
+                                <li>Esta acción es permanente e irreversible</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Información médica adicional -->
+            <div class="mt-6 p-4 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0">
+                        <i class="fa-solid fa-user-md text-purple-500 text-lg"></i>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-purple-800 dark:text-purple-200 font-medium text-sm">
+                            Consideraciones médicas
+                        </h3>
+                        <div class="mt-2 text-purple-700 dark:text-purple-300 text-xs">
+                            <p>
+                                Si este diagnóstico está siendo utilizado activamente en consultas médicas, 
+                                considera desactivarlo temporalmente en lugar de eliminarlo permanentemente.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Accesos rápidos adicionales -->
+            <div class="mt-6 flex justify-center space-x-4 text-sm">
+                <button onclick="showAlternatives()" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 flex items-center transition-colors duration-200">
+                    <i class="fa-solid fa-lightbulb mr-1"></i>
+                    Alternativas
+                </button>
+                <span class="text-gray-300 dark:text-gray-600">|</span>
+                <button onclick="showHelp()" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 flex items-center transition-colors duration-200">
+                    <i class="fa-solid fa-question-circle mr-1"></i>
+                    Ayuda
+                </button>
+                <span class="text-gray-300 dark:text-gray-600">|</span>
+                <button onclick="contactSupport()" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 flex items-center transition-colors duration-200">
+                    <i class="fa-solid fa-headset mr-1"></i>
+                    Soporte
+                </button>
+            </div>
+        </div>
+
+        <!-- Información adicional fuera del modal -->
+        <div class="text-center mt-6">
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+                <i class="fa-solid fa-clock mr-1"></i>
+                Tiempo de sesión restante: <span class="font-medium" id="session-timer">15:00</span>
+            </p>
+        </div>
+
+        <!-- Indicador de progreso de eliminación -->
+        <div id="deletion-progress" class="hidden mt-4">
+            <div class="bg-white dark:bg-secundario rounded-lg p-4 shadow-lg border border-gray-200 dark:border-gray-700">
+                <div class="flex items-center">
+                    <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-red-600 mr-3"></div>
+                    <span class="text-gray-700 dark:text-gray-300">Eliminando diagnóstico...</span>
+                </div>
+                <div class="mt-3 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                    <div id="progress-bar" class="bg-red-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Hacer que el botón cancelar reciba focus automáticamente (más seguro)
+    const cancelButton = document.querySelector('a[href="{{ back_url }}"]');
+    if (cancelButton) {
+        cancelButton.focus();
+    }
+
+    // Agregar confirmación adicional al hacer clic en eliminar
+    const deleteButton = document.querySelector('button[type="submit"]');
+    const form = document.querySelector('form');
+    
+    deleteButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Obtener información del diagnóstico
+        const diagnosticoInfo = '{% if object.codigo %}{{ object.codigo }} - {{ object.descripcion }}{% else %}{{ object.descripcion }}{% endif %}';
+        
+        // Mostrar confirmación adicional específica para diagnósticos
+        const confirmed = confirm(`⚠️ CONFIRMACIÓN FINAL\n\n¿Estás ABSOLUTAMENTE seguro de eliminar el diagnóstico:\n"${diagnosticoInfo}"?\n\nEsta acción:\n• Es permanente e irreversible\n• Puede afectar consultas futuras\n• Se recomienda desactivar en lugar de eliminar\n\n¿Continuar con la eliminación?`);
+        
+        if (confirmed) {
+            // Mostrar indicador de progreso
+            showDeletionProgress();
+            
+            // Cambiar el texto del botón
+            this.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-3 text-xl"></i>Eliminando diagnóstico...';
+            this.disabled = true;
+            this.classList.add('opacity-75', 'cursor-not-allowed');
+            
+            // Simular progreso y enviar formulario
+            simulateProgress().then(() => {
+                form.submit();
+            });
+        }
+    });
+
+    // Animación de entrada para el modal
+    const modal = document.querySelector('[data-aos="fade-up"]');
+    if (modal) {
+        modal.style.transform = 'translateY(30px)';
+        modal.style.opacity = '0';
+        
+        setTimeout(() => {
+            modal.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+            modal.style.transform = 'translateY(0)';
+            modal.style.opacity = '1';
+        }, 100);
+    }
+
+    // Prevenir envío accidental con Enter
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && e.target.tagName !== 'BUTTON') {
+            e.preventDefault();
+            // En su lugar, hacer focus en el botón cancelar
+            if (cancelButton) {
+                cancelButton.focus();
+            }
+        }
+        
+        // Permitir cancelar con Escape
+        if (e.key === 'Escape') {
+            if (cancelButton) {
+                window.location.href = cancelButton.href;
+            }
+        }
+    });
+
+    // Contador regresivo de sesión
+    let timeLeft = 15 * 60; // 15 minutos en segundos
+    const timeDisplay = document.getElementById('session-timer');
+    
+    function updateTimer() {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        if (timeDisplay) {
+            timeDisplay.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        if (timeLeft > 0) {
+            timeLeft--;
+        } else {
+            // Redirigir o mostrar mensaje de sesión expirada
+            if (timeDisplay) {
+                timeDisplay.textContent = 'Sesión expirada';
+                timeDisplay.classList.add('text-red-500');
+            }
+        }
+    }
+    
+    // Actualizar cada segundo
+    const timerInterval = setInterval(updateTimer, 1000);
+
+    // Efecto de pulsación en el icono de advertencia
+    const warningIcon = document.querySelector('.fa-exclamation-triangle');
+    if (warningIcon) {
+        setInterval(() => {
+            warningIcon.classList.add('animate-bounce');
+            setTimeout(() => {
+                warningIcon.classList.remove('animate-bounce');
+            }, 1000);
+        }, 3000);
+    }
+
+    // Agregar efecto de hover mejorado a los botones
+    const buttons = document.querySelectorAll('button, a[class*="bg-"]');
+    buttons.forEach(button => {
+        button.addEventListener('mouseenter', function() {
+            if (!this.disabled) {
+                this.style.transform = 'translateY(-2px) scale(1.02)';
+            }
+        });
+        
+        button.addEventListener('mouseleave', function() {
+            if (!this.disabled) {
+                this.style.transform = 'translateY(0) scale(1)';
+            }
+        });
+    });
+
+    // Función para mostrar progreso de eliminación
+    function showDeletionProgress() {
+        const progressContainer = document.getElementById('deletion-progress');
+        if (progressContainer) {
+            progressContainer.classList.remove('hidden');
+        }
+    }
+
+    // Simular progreso de eliminación
+    function simulateProgress() {
+        return new Promise((resolve) => {
+            const progressBar = document.getElementById('progress-bar');
+            let progress = 0;
+            
+            const interval = setInterval(() => {
+                progress += Math.random() * 25;
+                if (progress > 100) progress = 100;
+                
+                if (progressBar) {
+                    progressBar.style.width = progress + '%';
+                }
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(resolve, 500);
+                }
+            }, 200);
+        });
+    }
+});
+
+// Funciones globales para acciones adicionales
+function showAlternatives() {
+    showToast('💡 Alternativa: Considera desactivar el diagnóstico en lugar de eliminarlo. Esto preservará los datos históricos mientras evita su uso futuro.', 'info');
+}
+
+function showHelp() {
+    showToast('❓ Ayuda: La eliminación de diagnósticos es permanente. Si tienes dudas, contacta al administrador del sistema antes de proceder.', 'info');
+}
+
+function contactSupport() {
+    showToast('📞 Soporte: Para asistencia con diagnósticos médicos, contacta al departamento de informática médica.', 'info');
+}
+
+// Función para mostrar notificaciones toast
+function showToast(message, type = 'info') {
+    const toast = document.createElement('div');
+    const bgColor = type === 'info' ? 'bg-blue-500' : type === 'warning' ? 'bg-yellow-500' : 'bg-green-500';
+    
+    toast.className = `fixed top-4 right-4 ${bgColor} text-white px-6 py-4 rounded-lg shadow-lg z-50 opacity-0 transition-all duration-300 max-w-md`;
+    toast.innerHTML = `
+        <div class="flex items-start">
+            <div class="flex-shrink-0">
+                <i class="fa-solid fa-info-circle mr-2 mt-1"></i>
+            </div>
+            <div class="text-sm leading-relaxed">${message}</div>
+            <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-white hover:text-gray-200">
+                <i class="fa-solid fa-times"></i>
+            </button>
+        </div>
+    `;
+    
+    document.body.appendChild(toast);
+    
+    // Mostrar toast
+    setTimeout(() => {
+        toast.classList.remove('opacity-0');
+        toast.style.transform = 'translateX(0)';
+    }, 100);
+    
+    // Ocultar después de 6 segundos
+    setTimeout(() => {
+        toast.classList.add('opacity-0');
+        toast.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+            if (document.body.contains(toast)) {
+                document.body.removeChild(toast);
+            }
+        }, 300);
+    }, 6000);
+}
+
+// Función para mostrar información del diagnóstico
+function showDiagnosisInfo() {
+    const codigo = '{{ object.codigo|default:"Sin código" }}';
+    const descripcion = '{{ object.descripcion }}';
+    const activo = {% if object.activo %}true{% else %}false{% endif %};
+    
+    let info = `Información del diagnóstico:\n\n`;
+    info += `Código: ${codigo}\n`;
+    info += `Descripción: ${descripcion}\n`;
+    info += `Estado: ${activo ? 'Activo' : 'Inactivo'}\n`;
+    
+    alert(info);
+}
+</script>
+{% endblock %}

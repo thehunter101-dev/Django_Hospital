@@ -1,0 +1,455 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="dark:bg-principal min-h-screen">
+    <div class="text-center" data-aos="fade" data-aos-delay="200">
+        <div class="sm:pt-28 lg:pt-4">
+            <h1 class="rounded-2xl bg-green-500 px-2 py-1 text-white uppercase text-4xl">
+                {{ grabar }}
+            </h1>
+        </div>
+
+        <!-- Mensajes de error del formulario (no específicos de campo) -->
+        {% if form.non_field_errors %}
+        <div class="mx-4 lg:mx-20 mb-6" data-aos="fade-up">
+            <div class="bg-red-50 dark:bg-red-900/30 border-l-4 border-red-500 p-4 rounded-lg max-w-4xl mx-auto">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0">
+                        <i class="fa-solid fa-exclamation-triangle text-red-500 text-lg"></i>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-red-800 dark:text-red-200 font-medium">
+                            Se encontraron errores en el formulario:
+                        </h3>
+                        <div class="mt-2 text-red-700 dark:text-red-300">
+                            <ul class="list-disc list-inside space-y-1">
+                                {% for error in form.non_field_errors %}
+                                <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <form method="post" class="space-y-6 py-4">
+            <div class="mx-4 lg:mx-20" data-aos="fade">
+                <!-- Contenedor principal del formulario -->
+                <div class="bg-white dark:bg-secundario rounded-3xl p-8 max-w-4xl mx-auto"
+                    data-aos="fade-up" data-aos-delay="200">
+                    {% csrf_token %}
+
+                    <!-- Vista previa del icono de gasto -->
+                    <div class="text-center mb-8">
+                        <div class="bg-gradient-to-br from-green-400 to-emerald-500 rounded-full w-20 h-20 mx-auto flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-money-bill-wave text-3xl text-white"></i>
+                        </div>
+                        <h2 class="dark:text-blue-300 text-2xl font-Pacifico">Registro de Gasto Mensual</h2>
+                    </div>
+
+                    <!-- Título de sección: Información del Gasto -->
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-bold text-gray-800 dark:text-blue-300 mb-2 flex items-center">
+                            <i class="fa-solid fa-receipt mr-3 text-green-500"></i>
+                            Información del Gasto
+                        </h2>
+                        <div class="h-1 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full w-32"></div>
+                    </div>
+
+                    <!-- Grid de campos -->
+                    <div class="space-y-6">
+                        <!-- Campo Tipo de Gasto -->
+                        <div class="field-container {% if form.tipo_gasto.errors %}has-error{% endif %}">
+                            <label for="{{ form.tipo_gasto.id_for_label }}"
+                                class="font-black uppercase text-lg block mb-2
+                                       {% if form.tipo_gasto.errors %}text-red-600 dark:text-red-400{% else %}dark:text-blue-300{% endif %}">
+                                Tipo de Gasto
+                                {% if form.tipo_gasto.field.required %}<span class="text-red-500">*</span>{% endif %}
+                            </label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fa-solid fa-tags text-gray-400"></i>
+                                </div>
+                                <select name="{{ form.tipo_gasto.name }}"
+                                       id="{{ form.tipo_gasto.id_for_label }}"
+                                       class="w-full pl-10 pr-10 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
+                                              bg-white dark:bg-principal text-gray-900 dark:text-white
+                                              focus:ring-2 focus:ring-green-500 focus:border-green-500
+                                              transition-all duration-200 appearance-none">
+                                    {% for choice in form.tipo_gasto.field.choices %}
+                                        <option value="{{ choice.0 }}" {% if form.tipo_gasto.value == choice.0 %}selected{% endif %}>
+                                            {{ choice.1 }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                    {% if form.tipo_gasto.errors %}
+                                        <i class="fa-solid fa-exclamation-circle text-red-500"></i>
+                                    {% else %}
+                                        <i class="fa-solid fa-chevron-down text-gray-400"></i>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% if form.tipo_gasto.errors %}
+                            <div class="mt-2 text-red-600 dark:text-red-400 text-sm">
+                                {% for error in form.tipo_gasto.errors %}
+                                <div class="flex items-center mt-1">
+                                    <i class="fa-solid fa-circle-exclamation text-xs mr-2"></i>
+                                    {{ error }}
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Campo Fecha -->
+                        <div class="field-container {% if form.fecha.errors %}has-error{% endif %}">
+                            <label for="{{ form.fecha.id_for_label }}"
+                                class="font-black uppercase text-lg block mb-2
+                                       {% if form.fecha.errors %}text-red-600 dark:text-red-400{% else %}dark:text-blue-300{% endif %}">
+                                Fecha del Gasto
+                                {% if form.fecha.field.required %}<span class="text-red-500">*</span>{% endif %}
+                            </label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fa-solid fa-calendar-days text-gray-400"></i>
+                                </div>
+                                <input type="date"
+                                     name="{{ form.fecha.name }}"
+                                     value="{{ form.fecha.value|date:'Y-m-d'|default:'' }}"
+                                     id="{{ form.fecha.id_for_label }}"
+                                     class="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
+                                            bg-white dark:bg-principal text-gray-900 dark:text-white
+                                            focus:ring-2 focus:ring-green-500 focus:border-green-500
+                                            transition-all duration-200">
+                                {% if form.fecha.errors %}
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                    <i class="fa-solid fa-exclamation-circle text-red-500"></i>
+                                </div>
+                                {% endif %}
+                            </div>
+                            {% if form.fecha.errors %}
+                            <div class="mt-2 text-red-600 dark:text-red-400 text-sm">
+                                {% for error in form.fecha.errors %}
+                                <div class="flex items-center mt-1">
+                                    <i class="fa-solid fa-circle-exclamation text-xs mr-2"></i>
+                                    {{ error }}
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Campo Valor -->
+                        <div class="field-container {% if form.valor.errors %}has-error{% endif %}">
+                            <label for="{{ form.valor.id_for_label }}"
+                                class="font-black uppercase text-lg block mb-2
+                                       {% if form.valor.errors %}text-red-600 dark:text-red-400{% else %}dark:text-blue-300{% endif %}">
+                                Valor del Gasto
+                                {% if form.valor.field.required %}<span class="text-red-500">*</span>{% endif %}
+                            </label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fa-solid fa-dollar-sign text-gray-400"></i>
+                                </div>
+                                <input type="number"
+                                     name="{{ form.valor.name }}"
+                                     value="{{ form.valor.value|default:'' }}"
+                                     id="{{ form.valor.id_for_label }}"
+                                     step="0.01"
+                                     min="0"
+                                     class="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
+                                            bg-white dark:bg-principal text-gray-900 dark:text-white
+                                            focus:ring-2 focus:ring-green-500 focus:border-green-500
+                                            transition-all duration-200"
+                                     placeholder="0.00">
+                                {% if form.valor.errors %}
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                    <i class="fa-solid fa-exclamation-circle text-red-500"></i>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                <i class="fa-solid fa-info-circle mr-1"></i>
+                                Ingrese el valor en formato decimal (ej: 150.50)
+                            </p>
+                            {% if form.valor.errors %}
+                            <div class="mt-2 text-red-600 dark:text-red-400 text-sm">
+                                {% for error in form.valor.errors %}
+                                <div class="flex items-center mt-1">
+                                    <i class="fa-solid fa-circle-exclamation text-xs mr-2"></i>
+                                    {{ error }}
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Campo Observación -->
+                        <div class="field-container {% if form.observacion.errors %}has-error{% endif %}">
+                            <label for="{{ form.observacion.id_for_label }}"
+                                class="font-black uppercase text-lg block mb-2
+                                       {% if form.observacion.errors %}text-red-600 dark:text-red-400{% else %}dark:text-blue-300{% endif %}">
+                                Observaciones
+                                {% if form.observacion.field.required %}<span class="text-red-500">*</span>{% endif %}
+                            </label>
+                            <div class="relative">
+                                <textarea name="{{ form.observacion.name }}"
+                                         id="{{ form.observacion.id_for_label }}"
+                                         rows="3"
+                                         class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
+                                                bg-white dark:bg-principal text-gray-900 dark:text-white
+                                                focus:ring-2 focus:ring-green-500 focus:border-green-500
+                                                transition-all duration-200 resize-none"
+                                         placeholder="Detalles adicionales sobre el gasto (opcional)">{{ form.observacion.value|default:'' }}</textarea>
+                                {% if form.observacion.errors %}
+                                <div class="absolute top-3 right-3 pointer-events-none">
+                                    <i class="fa-solid fa-exclamation-circle text-red-500"></i>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                <i class="fa-solid fa-info-circle mr-1"></i>
+                                Agregue cualquier detalle relevante sobre este gasto
+                            </p>
+                            {% if form.observacion.errors %}
+                            <div class="mt-2 text-red-600 dark:text-red-400 text-sm">
+                                {% for error in form.observacion.errors %}
+                                <div class="flex items-center mt-1">
+                                    <i class="fa-solid fa-circle-exclamation text-xs mr-2"></i>
+                                    {{ error }}
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Información adicional -->
+                    <div class="mt-8 p-4 bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 rounded-r-lg">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <i class="fa-solid fa-lightbulb text-blue-500 text-lg"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-blue-800 dark:text-blue-200 font-medium">
+                                    Consejos para registrar gastos
+                                </h3>
+                                <div class="mt-2 text-blue-700 dark:text-blue-300 text-sm">
+                                    <ul class="list-disc list-inside space-y-1">
+                                        <li>Seleccione el tipo de gasto más apropiado para una mejor categorización</li>
+                                        <li>Registre la fecha exacta en que se realizó el gasto</li>
+                                        <li>Ingrese el valor exacto incluyendo centavos si es necesario</li>
+                                        <li>Use las observaciones para detalles que puedan ser útiles después</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botones de acción -->
+                    <div class="flex flex-col md:flex-row justify-center items-center mt-8 space-y-3 md:space-y-0 md:space-x-8">
+                        <button type="submit"
+                            class="w-full md:w-auto bg-green-600 hover:bg-green-700 text-white py-3 px-8 rounded-lg flex items-center justify-center transition-all duration-300 font-medium shadow-lg hover:shadow-xl transform hover:scale-105">
+                            <i class="fa-solid fa-save mr-2"></i>{{ grabar }}
+                        </button>
+                        <a class="w-full md:w-auto bg-gray-500 hover:bg-gray-600 text-white py-3 px-8 rounded-lg flex items-center justify-center transition-all duration-300 font-medium shadow-lg hover:shadow-xl transform hover:scale-105"
+                            href="{{ back_url }}">
+                            <i class="fa-solid fa-arrow-left mr-2"></i>Cancelar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Animación para campos con errores
+    const errorFields = document.querySelectorAll('.field-container.has-error');
+    errorFields.forEach(field => {
+        field.style.animation = 'shake 0.5s ease-in-out';
+    });
+
+    // Auto-focus en el primer campo
+    const firstSelect = document.querySelector('select[name="tipo_gasto"]');
+    if (firstSelect) {
+        firstSelect.focus();
+    }
+
+    // Validación en tiempo real para campos requeridos
+    const requiredInputs = document.querySelectorAll('input[required], select[required], textarea[required]');
+    requiredInputs.forEach(input => {
+        input.addEventListener('blur', function() {
+            const fieldContainer = this.closest('.field-container');
+            if (this.value.trim() === '') {
+                fieldContainer.classList.add('has-error');
+                this.classList.add('border-red-500');
+            } else {
+                fieldContainer.classList.remove('has-error');
+                this.classList.remove('border-red-500');
+            }
+        });
+
+        // Remover error al escribir/seleccionar
+        input.addEventListener('input', function() {
+            const fieldContainer = this.closest('.field-container');
+            if (this.value.trim() !== '') {
+                fieldContainer.classList.remove('has-error');
+                this.classList.remove('border-red-500');
+            }
+        });
+
+        input.addEventListener('change', function() {
+            const fieldContainer = this.closest('.field-container');
+            if (this.value.trim() !== '') {
+                fieldContainer.classList.remove('has-error');
+                this.classList.remove('border-red-500');
+            }
+        });
+    });
+
+    // Formateo automático del campo valor
+    const valorInput = document.querySelector('input[name="valor"]');
+    if (valorInput) {
+        valorInput.addEventListener('input', function() {
+            // Permitir solo números y punto decimal
+            this.value = this.value.replace(/[^0-9.]/g, '');
+            
+            // Evitar múltiples puntos decimales
+            const parts = this.value.split('.');
+            if (parts.length > 2) {
+                this.value = parts[0] + '.' + parts.slice(1).join('');
+            }
+            
+            // Limitar a 2 decimales
+            if (parts[1] && parts[1].length > 2) {
+                this.value = parts[0] + '.' + parts[1].substring(0, 2);
+            }
+        });
+
+        // Formatear al perder el foco
+        valorInput.addEventListener('blur', function() {
+            if (this.value && !isNaN(this.value)) {
+                this.value = parseFloat(this.value).toFixed(2);
+            }
+        });
+    }
+
+    // Contador de caracteres para observación
+    const observacionTextarea = document.querySelector('textarea[name="observacion"]');
+    if (observacionTextarea) {
+        const maxLength = 500; // Límite sugerido
+        
+        // Crear contador
+        const counter = document.createElement('div');
+        counter.className = 'text-xs text-gray-500 dark:text-gray-400 mt-1 text-right';
+        counter.id = 'observacion-counter';
+        observacionTextarea.parentNode.appendChild(counter);
+        
+        function updateCounter() {
+            const currentLength = observacionTextarea.value.length;
+            counter.textContent = `${currentLength}/${maxLength} caracteres`;
+            
+            if (currentLength > maxLength * 0.9) {
+                counter.classList.add('text-yellow-600');
+                counter.classList.remove('text-gray-500');
+            } else {
+                counter.classList.remove('text-yellow-600');
+                counter.classList.add('text-gray-500');
+            }
+        }
+        
+        observacionTextarea.addEventListener('input', updateCounter);
+        updateCounter(); // Inicializar contador
+    }
+
+    // Confirmación antes de cancelar si hay cambios
+    const cancelButton = document.querySelector('a[href*="back_url"], a[href*="list"]');
+    const form = document.querySelector('form');
+    let formChanged = false;
+
+    // Detectar cambios en el formulario
+    form.addEventListener('input', function() {
+        formChanged = true;
+    });
+
+    form.addEventListener('change', function() {
+        formChanged = true;
+    });
+
+    if (cancelButton) {
+        cancelButton.addEventListener('click', function(e) {
+            if (formChanged) {
+                if (!confirm('¿Estás seguro que deseas cancelar? Se perderán los cambios no guardados.')) {
+                    e.preventDefault();
+                }
+            }
+        });
+    }
+
+    // Establecer fecha actual por defecto si está vacía
+    const fechaInput = document.querySelector('input[name="fecha"]');
+    if (fechaInput && !fechaInput.value) {
+        const today = new Date();
+        const formattedDate = today.getFullYear() + '-' + 
+                             String(today.getMonth() + 1).padStart(2, '0') + '-' + 
+                             String(today.getDate()).padStart(2, '0');
+        fechaInput.value = formattedDate;
+    }
+});
+
+// Definir la animación shake y estilos de error usando CSS-in-JS
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+        20%, 40%, 60%, 80% { transform: translateX(2px); }
+    }
+    
+    .field-container.has-error input,
+    .field-container.has-error textarea,
+    .field-container.has-error select {
+        border-color: #ef4444 !important;
+        background-color: rgba(254, 242, 242, 0.5) !important;
+    }
+    
+    .field-container.has-error input:focus,
+    .field-container.has-error textarea:focus,
+    .field-container.has-error select:focus {
+        border-color: #dc2626 !important;
+        box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2) !important;
+    }
+    
+    @media (prefers-color-scheme: dark) {
+        .field-container.has-error input,
+        .field-container.has-error textarea,
+        .field-container.has-error select {
+            background-color: rgba(153, 27, 27, 0.2) !important;
+            border-color: #ef4444 !important;
+        }
+    }
+    
+    /* Transiciones suaves para todos los elementos interactivos */
+    input, textarea, select, button, a {
+        transition: all 0.2s ease-in-out;
+    }
+    
+    /* Efecto hover mejorado para botones */
+    button:hover, a:hover {
+        transform: translateY(-1px);
+    }
+    
+    /* Estilo personalizado para el select */
+    select {
+        background-image: none;
+    }
+`;
+document.head.appendChild(style);
+</script>
+{% endblock %}
