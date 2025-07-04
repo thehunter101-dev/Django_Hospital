@@ -1,0 +1,654 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="dark:bg-principal min-h-screen">
+    <div class="text-center" data-aos="fade" data-aos-delay="200">
+        <div class="sm:pt-28 lg:pt-4">
+            <h1 class="rounded-2xl bg-blue-500 px-2 py-1 text-white uppercase text-4xl">
+                {{ grabar }}
+            </h1>
+        </div>
+
+        <!-- Mensajes de error del formulario (no específicos de campo) -->
+        {% if form.non_field_errors %}
+        <div class="mx-4 lg:mx-20 mb-6" data-aos="fade-up">
+            <div class="bg-red-50 dark:bg-red-900/30 border-l-4 border-red-500 p-4 rounded-lg max-w-6xl mx-auto">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0">
+                        <i class="fa-solid fa-exclamation-triangle text-red-500 text-lg"></i>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-red-800 dark:text-red-200 font-medium">
+                            Se encontraron errores en el formulario:
+                        </h3>
+                        <div class="mt-2 text-red-700 dark:text-red-300">
+                            <ul class="list-disc list-inside space-y-1">
+                                {% for error in form.non_field_errors %}
+                                <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <form method="post" enctype="multipart/form-data" class="space-y-6 py-4">
+            <div class="mx-4 lg:mx-20" data-aos="fade">
+                <!-- Contenedor principal del formulario -->
+                <div class="bg-white dark:bg-secundario rounded-3xl p-8 max-w-6xl mx-auto shadow-2xl"
+                    data-aos="fade-up" data-aos-delay="200">
+                    {% csrf_token %}
+
+                    <!-- Vista previa del icono de paciente -->
+                    <div class="text-center mb-8">
+                        <div class="bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full w-20 h-20 mx-auto flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-user-injured text-3xl text-white"></i>
+                        </div>
+                        <h2 class="dark:text-blue-300 text-2xl font-Pacifico">Información del Paciente</h2>
+                        <p class="text-gray-600 dark:text-gray-400 mt-2">Complete todos los campos para un registro médico completo</p>
+                    </div>
+
+                    <!-- Progreso del formulario -->
+                    <div class="mb-8">
+                        <div class="flex items-center justify-center space-x-4 mb-4">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-medium">1</div>
+                                <span class="ml-2 text-sm font-medium text-blue-600 dark:text-blue-400">Personal</span>
+                            </div>
+                            <div class="w-16 h-1 bg-gray-200 dark:bg-gray-700 rounded"></div>
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center text-gray-600 dark:text-gray-400 text-sm font-medium">2</div>
+                                <span class="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400">Médica</span>
+                            </div>
+                            <div class="w-16 h-1 bg-gray-200 dark:bg-gray-700 rounded"></div>
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center text-gray-600 dark:text-gray-400 text-sm font-medium">3</div>
+                                <span class="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400">Antecedentes</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sección 1: Información Personal -->
+                    <div class="form-section mb-12" id="section-personal">
+                        <div class="mb-8">
+                            <h2 class="text-2xl font-bold text-gray-800 dark:text-blue-300 mb-2 flex items-center">
+                                <i class="fa-solid fa-user mr-3 text-blue-500"></i>
+                                Información Personal
+                            </h2>
+                            <div class="h-1 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full w-48"></div>
+                        </div>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <!-- Campos de información personal -->
+                            {% for field in form %}
+                                {% if field.name in "nombre_completo,cedula_ecuatoriana,fecha_nacimiento,genero,estado_civil,telefono,email,direccion" %}
+                                <div class="field-container {% if field.errors %}has-error{% endif %} {% if field.name == 'direccion' %}lg:col-span-2{% endif %}">
+                                    <label for="{{ field.id_for_label }}"
+                                        class="font-black uppercase text-lg block mb-2
+                                               {% if field.errors %}text-red-600 dark:text-red-400{% else %}dark:text-blue-300{% endif %}">
+                                        {% if field.name == 'nombre_completo' %}
+                                            <i class="fa-solid fa-user mr-2"></i>
+                                        {% elif field.name == 'cedula_ecuatoriana' %}
+                                            <i class="fa-solid fa-id-card mr-2"></i>
+                                        {% elif field.name == 'fecha_nacimiento' %}
+                                            <i class="fa-solid fa-birthday-cake mr-2"></i>
+                                        {% elif field.name == 'genero' %}
+                                            <i class="fa-solid fa-venus-mars mr-2"></i>
+                                        {% elif field.name == 'estado_civil' %}
+                                            <i class="fa-solid fa-heart mr-2"></i>
+                                        {% elif field.name == 'telefono' %}
+                                            <i class="fa-solid fa-phone mr-2"></i>
+                                        {% elif field.name == 'email' %}
+                                            <i class="fa-solid fa-envelope mr-2"></i>
+                                        {% elif field.name == 'direccion' %}
+                                            <i class="fa-solid fa-map-marker-alt mr-2"></i>
+                                        {% endif %}
+                                        {{ field.label }}
+                                        {% if field.field.required %}<span class="text-red-500">*</span>{% endif %}
+                                    </label>
+                                    <div class="relative">
+                                        {% if field.name == 'nombre_completo' %}
+                                            <input type="text"
+                                                 name="{{ field.name }}"
+                                                 value="{{ field.value|default:'' }}"
+                                                 id="{{ field.id_for_label }}"
+                                                 class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
+                                                        bg-white dark:bg-principal text-gray-900 dark:text-white
+                                                        focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                                                        transition-all duration-200"
+                                                 placeholder="Ingrese el nombre completo del paciente">
+                                        {% elif field.name == 'cedula_ecuatoriana' %}
+                                            <input type="text"
+                                                 name="{{ field.name }}"
+                                                 value="{{ field.value|default:'' }}"
+                                                 id="{{ field.id_for_label }}"
+                                                 class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
+                                                        bg-white dark:bg-principal text-gray-900 dark:text-white
+                                                        focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                                                        transition-all duration-200"
+                                                 placeholder="1234567890"
+                                                 maxlength="10">
+                                        {% elif field.name == 'fecha_nacimiento' %}
+                                            <input type="date"
+                                                 name="{{ field.name }}"
+                                                 value="{{ field.value|date:'Y-m-d'|default:'' }}"
+                                                 id="{{ field.id_for_label }}"
+                                                 class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
+                                                        bg-white dark:bg-principal text-gray-900 dark:text-white
+                                                        focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                                                        transition-all duration-200">
+                                        {% elif field.name == 'telefono' %}
+                                            <input type="tel"
+                                                 name="{{ field.name }}"
+                                                 value="{{ field.value|default:'' }}"
+                                                 id="{{ field.id_for_label }}"
+                                                 class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
+                                                        bg-white dark:bg-principal text-gray-900 dark:text-white
+                                                        focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                                                        transition-all duration-200"
+                                                 placeholder="0987654321">
+                                        {% elif field.name == 'email' %}
+                                            <input type="email"
+                                                 name="{{ field.name }}"
+                                                 value="{{ field.value|default:'' }}"
+                                                 id="{{ field.id_for_label }}"
+                                                 class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
+                                                        bg-white dark:bg-principal text-gray-900 dark:text-white
+                                                        focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                                                        transition-all duration-200"
+                                                 placeholder="paciente@email.com">
+                                        {% elif field.name == 'direccion' %}
+                                            <textarea name="{{ field.name }}"
+                                                     id="{{ field.id_for_label }}"
+                                                     rows="2"
+                                                     class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
+                                                            bg-white dark:bg-principal text-gray-900 dark:text-white
+                                                            focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                                                            transition-all duration-200 resize-none"
+                                                     placeholder="Dirección completa del paciente">{{ field.value|default:'' }}</textarea>
+                                        {% else %}
+                                            {{ field }}
+                                        {% endif %}
+                                        {% if field.errors %}
+                                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                            <i class="fa-solid fa-exclamation-circle text-red-500"></i>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    {% if field.help_text %}
+                                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                        <i class="fa-solid fa-info-circle mr-1"></i>
+                                        {{ field.help_text }}
+                                    </p>
+                                    {% endif %}
+                                    {% if field.errors %}
+                                    <div class="mt-2 text-red-600 dark:text-red-400 text-sm">
+                                        {% for error in field.errors %}
+                                        <div class="flex items-center mt-1">
+                                            <i class="fa-solid fa-circle-exclamation text-xs mr-2"></i>
+                                            {{ error }}
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Sección 2: Información Médica Básica -->
+                    <div class="form-section mb-12" id="section-medical">
+                        <div class="mb-8">
+                            <h2 class="text-2xl font-bold text-gray-800 dark:text-blue-300 mb-2 flex items-center">
+                                <i class="fa-solid fa-heartbeat mr-3 text-red-500"></i>
+                                Información Médica Básica
+                            </h2>
+                            <div class="h-1 bg-gradient-to-r from-red-500 to-pink-500 rounded-full w-56"></div>
+                        </div>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            {% for field in form %}
+                                {% if field.name in "alergias,medicamentos_actuales,vacunas" %}
+                                <div class="field-container {% if field.errors %}has-error{% endif %} {% if field.name == 'alergias' %}lg:col-span-2{% endif %}">
+                                    <label for="{{ field.id_for_label }}"
+                                        class="font-black uppercase text-lg block mb-2
+                                               {% if field.errors %}text-red-600 dark:text-red-400{% else %}dark:text-blue-300{% endif %}">
+                                        {% if field.name == 'alergias' %}
+                                            <i class="fa-solid fa-exclamation-triangle mr-2 text-red-500"></i>
+                                        {% elif field.name == 'medicamentos_actuales' %}
+                                            <i class="fa-solid fa-pills mr-2 text-blue-500"></i>
+                                        {% elif field.name == 'vacunas' %}
+                                            <i class="fa-solid fa-syringe mr-2 text-green-500"></i>
+                                        {% endif %}
+                                        {{ field.label }}
+                                        {% if field.field.required %}<span class="text-red-500">*</span>{% endif %}
+                                    </label>
+                                    <div class="relative">
+                                        <textarea name="{{ field.name }}"
+                                                 id="{{ field.id_for_label }}"
+                                                 rows="3"
+                                                 class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
+                                                        bg-white dark:bg-principal text-gray-900 dark:text-white
+                                                        focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                                                        transition-all duration-200 resize-none"
+                                                 placeholder="{% if field.name == 'alergias' %}Describa las alergias conocidas del paciente{% elif field.name == 'medicamentos_actuales' %}Liste los medicamentos que toma actualmente{% elif field.name == 'vacunas' %}Registre las vacunas aplicadas{% endif %}">{{ field.value|default:'' }}</textarea>
+                                        {% if field.errors %}
+                                        <div class="absolute top-3 right-3 pointer-events-none">
+                                            <i class="fa-solid fa-exclamation-circle text-red-500"></i>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                        <i class="fa-solid fa-info-circle mr-1"></i>
+                                        {% if field.name == 'alergias' %}
+                                            Información crítica para la seguridad del paciente
+                                        {% elif field.name == 'medicamentos_actuales' %}
+                                            Incluya dosis y frecuencia si es posible
+                                        {% elif field.name == 'vacunas' %}
+                                            Registre fechas y tipos de vacunas
+                                        {% endif %}
+                                    </p>
+                                    {% if field.errors %}
+                                    <div class="mt-2 text-red-600 dark:text-red-400 text-sm">
+                                        {% for error in field.errors %}
+                                        <div class="flex items-center mt-1">
+                                            <i class="fa-solid fa-circle-exclamation text-xs mr-2"></i>
+                                            {{ error }}
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Sección 3: Antecedentes Médicos -->
+                    <div class="form-section mb-12" id="section-history">
+                        <div class="mb-8">
+                            <h2 class="text-2xl font-bold text-gray-800 dark:text-blue-300 mb-2 flex items-center">
+                                <i class="fa-solid fa-history mr-3 text-purple-500"></i>
+                                Antecedentes Médicos
+                            </h2>
+                            <div class="h-1 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full w-52"></div>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-6">
+                            {% for field in form %}
+                                {% if field.name in "antecedentes_personales,antecedentes_familiares,antecedentes_quirurgicos,antecedentes_gineco_obstetricos" %}
+                                <div class="field-container {% if field.errors %}has-error{% endif %}">
+                                    <label for="{{ field.id_for_label }}"
+                                        class="font-black uppercase text-lg block mb-2
+                                               {% if field.errors %}text-red-600 dark:text-red-400{% else %}dark:text-blue-300{% endif %}">
+                                        {% if field.name == 'antecedentes_personales' %}
+                                            <i class="fa-solid fa-user-md mr-2 text-blue-500"></i>
+                                        {% elif field.name == 'antecedentes_familiares' %}
+                                            <i class="fa-solid fa-users mr-2 text-green-500"></i>
+                                        {% elif field.name == 'antecedentes_quirurgicos' %}
+                                            <i class="fa-solid fa-cut mr-2 text-red-500"></i>
+                                        {% elif field.name == 'antecedentes_gineco_obstetricos' %}
+                                            <i class="fa-solid fa-female mr-2 text-pink-500"></i>
+                                        {% endif %}
+                                        {{ field.label }}
+                                        {% if field.field.required %}<span class="text-red-500">*</span>{% endif %}
+                                    </label>
+                                    <div class="relative">
+                                        <textarea name="{{ field.name }}"
+                                                 id="{{ field.id_for_label }}"
+                                                 rows="3"
+                                                 class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg
+                                                        bg-white dark:bg-principal text-gray-900 dark:text-white
+                                                        focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                                                        transition-all duration-200 resize-none"
+                                                 placeholder="{% if field.name == 'antecedentes_personales' %}Enfermedades previas, hospitalizaciones, etc.{% elif field.name == 'antecedentes_familiares' %}Historial médico familiar relevante{% elif field.name == 'antecedentes_quirurgicos' %}Cirugías previas con fechas{% elif field.name == 'antecedentes_gineco_obstetricos' %}Información ginecológica y obstétrica{% endif %}">{{ field.value|default:'' }}</textarea>
+                                        {% if field.errors %}
+                                        <div class="absolute top-3 right-3 pointer-events-none">
+                                            <i class="fa-solid fa-exclamation-circle text-red-500"></i>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                        <i class="fa-solid fa-info-circle mr-1"></i>
+                                        {% if field.name == 'antecedentes_personales' %}
+                                            Incluya enfermedades crónicas, hospitalizaciones previas
+                                        {% elif field.name == 'antecedentes_familiares' %}
+                                            Enfermedades hereditarias o relevantes en la familia
+                                        {% elif field.name == 'antecedentes_quirurgicos' %}
+                                            Detalle tipo de cirugía, fecha y complicaciones
+                                        {% elif field.name == 'antecedentes_gineco_obstetricos' %}
+                                            Solo para pacientes femeninas (embarazos, partos, etc.)
+                                        {% endif %}
+                                    </p>
+                                    {% if field.errors %}
+                                    <div class="mt-2 text-red-600 dark:text-red-400 text-sm">
+                                        {% for error in field.errors %}
+                                        <div class="flex items-center mt-1">
+                                            <i class="fa-solid fa-circle-exclamation text-xs mr-2"></i>
+                                            {{ error }}
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Campos restantes (si los hay) -->
+                    {% for field in form %}
+                        {% if field.name not in "nombre_completo,cedula_ecuatoriana,fecha_nacimiento,genero,estado_civil,telefono,email,direccion,alergias,medicamentos_actuales,vacunas,antecedentes_personales,antecedentes_familiares,antecedentes_quirurgicos,antecedentes_gineco_obstetricos" %}
+                        <div class="field-container {% if field.errors %}has-error{% endif %} mb-6">
+                            <label for="{{ field.id_for_label }}"
+                                class="font-black uppercase text-lg block mb-2
+                                       {% if field.errors %}text-red-600 dark:text-red-400{% else %}dark:text-blue-300{% endif %}">
+                                {{ field.label }}
+                                {% if field.field.required %}<span class="text-red-500">*</span>{% endif %}
+                            </label>
+                            <div class="relative">
+                                {{ field }}
+                                {% if field.errors %}
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                    <i class="fa-solid fa-exclamation-circle text-red-500"></i>
+                                </div>
+                                {% endif %}
+                            </div>
+                            {% if field.help_text %}
+                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                <i class="fa-solid fa-info-circle mr-1"></i>
+                                {{ field.help_text }}
+                            </p>
+                            {% endif %}
+                            {% if field.errors %}
+                            <div class="mt-2 text-red-600 dark:text-red-400 text-sm">
+                                {% for error in field.errors %}
+                                <div class="flex items-center mt-1">
+                                    <i class="fa-solid fa-circle-exclamation text-xs mr-2"></i>
+                                    {{ error }}
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+
+                    <!-- Información adicional -->
+                    <div class="mt-8 p-4 bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 rounded-r-lg">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <i class="fa-solid fa-lightbulb text-blue-500 text-lg"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-blue-800 dark:text-blue-200 font-medium">
+                                    Consejos para el registro médico
+                                </h3>
+                                <div class="mt-2 text-blue-700 dark:text-blue-300 text-sm">
+                                    <ul class="list-disc list-inside space-y-1">
+                                        <li>Complete toda la información disponible para un mejor diagnóstico</li>
+                                        <li>Las alergias son información crítica para la seguridad del paciente</li>
+                                        <li>Incluya fechas específicas en antecedentes quirúrgicos cuando sea posible</li>
+                                        <li>Los antecedentes familiares ayudan a identificar riesgos hereditarios</li>
+                                        <li>Mantenga actualizada la información de contacto</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botones de acción -->
+                    <div class="flex flex-col md:flex-row justify-center items-center mt-8 space-y-3 md:space-y-0 md:space-x-8">
+                        <button type="submit"
+                            class="w-full md:w-auto bg-green-600 hover:bg-green-700 text-white py-3 px-8 rounded-lg flex items-center justify-center transition-all duration-300 font-medium shadow-lg hover:shadow-xl transform hover:scale-105">
+                            <i class="fa-solid fa-save mr-2"></i>{{ grabar }}
+                        </button>
+                        <a class="w-full md:w-auto bg-gray-500 hover:bg-gray-600 text-white py-3 px-8 rounded-lg flex items-center justify-center transition-all duration-300 font-medium shadow-lg hover:shadow-xl transform hover:scale-105"
+                            href="{{ back_url }}">
+                            <i class="fa-solid fa-arrow-left mr-2"></i>Cancelar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Animación para campos con errores
+    const errorFields = document.querySelectorAll('.field-container.has-error');
+    errorFields.forEach(field => {
+        field.style.animation = 'shake 0.5s ease-in-out';
+    });
+
+    // Auto-focus en el primer campo
+    const firstInput = document.querySelector('input[name="nombre_completo"]');
+    if (firstInput) {
+        firstInput.focus();
+    }
+
+    // Validación de cédula ecuatoriana
+    const cedulaInput = document.querySelector('input[name="cedula_ecuatoriana"]');
+    if (cedulaInput) {
+        cedulaInput.addEventListener('input', function() {
+            // Solo permitir números
+            this.value = this.value.replace(/[^0-9]/g, '');
+            
+            // Validar longitud
+            if (this.value.length === 10) {
+                if (validateEcuadorianID(this.value)) {
+                    this.classList.remove('border-red-500');
+                    this.classList.add('border-green-500');
+                } else {
+                    this.classList.remove('border-green-500');
+                    this.classList.add('border-red-500');
+                }
+            } else {
+                this.classList.remove('border-green-500', 'border-red-500');
+            }
+        });
+    }
+
+    // Validación de teléfono
+    const phoneInput = document.querySelector('input[name="telefono"]');
+    if (phoneInput) {
+        phoneInput.addEventListener('input', function() {
+            // Solo permitir números
+            this.value = this.value.replace(/[^0-9]/g, '');
+            
+            // Limitar a 10 dígitos
+            if (this.value.length > 10) {
+                this.value = this.value.slice(0, 10);
+            }
+        });
+    }
+
+    // Contador de caracteres para textareas
+    const textareas = document.querySelectorAll('textarea');
+    textareas.forEach(textarea => {
+        const maxLength = 1000; // Límite sugerido
+        
+        // Crear contador
+        const counter = document.createElement('div');
+        counter.className = 'text-xs text-gray-500 dark:text-gray-400 mt-1 text-right';
+        counter.id = textarea.name + '-counter';
+        textarea.parentNode.appendChild(counter);
+        
+        function updateCounter() {
+            const currentLength = textarea.value.length;
+            counter.textContent = `${currentLength}/${maxLength} caracteres`;
+            
+            if (currentLength > maxLength * 0.9) {
+                counter.classList.add('text-yellow-600');
+                counter.classList.remove('text-gray-500');
+            } else {
+                counter.classList.remove('text-yellow-600');
+                counter.classList.add('text-gray-500');
+            }
+        }
+        
+        textarea.addEventListener('input', updateCounter);
+        updateCounter(); // Inicializar contador
+    });
+
+    // Validación en tiempo real para campos requeridos
+    const requiredInputs = document.querySelectorAll('input[required], textarea[required], select[required]');
+    requiredInputs.forEach(input => {
+        input.addEventListener('blur', function() {
+            const fieldContainer = this.closest('.field-container');
+            if (this.value.trim() === '') {
+                fieldContainer.classList.add('has-error');
+                this.classList.add('border-red-500');
+            } else {
+                fieldContainer.classList.remove('has-error');
+                this.classList.remove('border-red-500');
+            }
+        });
+
+        // Remover error al escribir
+        input.addEventListener('input', function() {
+            const fieldContainer = this.closest('.field-container');
+            if (this.value.trim() !== '') {
+                fieldContainer.classList.remove('has-error');
+                this.classList.remove('border-red-500');
+            }
+        });
+    });
+
+    // Confirmación antes de cancelar si hay cambios
+    const cancelButton = document.querySelector('a[href*="back_url"], a[href*="list"]');
+    const form = document.querySelector('form');
+    let formChanged = false;
+
+    // Detectar cambios en el formulario
+    form.addEventListener('input', function() {
+        formChanged = true;
+        updateProgress();
+    });
+
+    form.addEventListener('change', function() {
+        formChanged = true;
+        updateProgress();
+    });
+
+    if (cancelButton) {
+        cancelButton.addEventListener('click', function(e) {
+            if (formChanged) {
+                if (!confirm('¿Estás seguro que deseas cancelar? Se perderán los cambios no guardados.')) {
+                    e.preventDefault();
+                }
+            }
+        });
+    }
+
+    // Actualizar progreso del formulario
+    function updateProgress() {
+        const personalFields = ['nombre_completo', 'cedula_ecuatoriana', 'fecha_nacimiento', 'telefono'];
+        const medicalFields = ['alergias', 'medicamentos_actuales', 'vacunas'];
+        const historyFields = ['antecedentes_personales', 'antecedentes_familiares', 'antecedentes_quirurgicos'];
+        
+        const personalComplete = personalFields.some(field => {
+            const input = document.querySelector(`[name="${field}"]`);
+            return input && input.value.trim() !== '';
+        });
+        
+        const medicalComplete = medicalFields.some(field => {
+            const input = document.querySelector(`[name="${field}"]`);
+            return input && input.value.trim() !== '';
+        });
+        
+        const historyComplete = historyFields.some(field => {
+            const input = document.querySelector(`[name="${field}"]`);
+            return input && input.value.trim() !== '';
+        });
+        
+        // Actualizar indicadores visuales
+        updateStepIndicator(1, personalComplete);
+        updateStepIndicator(2, medicalComplete);
+        updateStepIndicator(3, historyComplete);
+    }
+
+    function updateStepIndicator(step, completed) {
+        const indicator = document.querySelector(`.w-8.h-8:nth-of-type(${step})`);
+        if (indicator && completed) {
+            indicator.classList.remove('bg-gray-300', 'dark:bg-gray-600');
+            indicator.classList.add('bg-green-500');
+        }
+    }
+
+    // Inicializar progreso
+    updateProgress();
+});
+
+// Función para validar cédula ecuatoriana
+function validateEcuadorianID(id) {
+    if (id.length !== 10) return false;
+    
+    const digits = id.split('').map(Number);
+    const province = parseInt(id.substring(0, 2));
+    
+    if (province < 1 || province > 24) return false;
+    
+    const coefficients = [2, 1, 2, 1, 2, 1, 2, 1, 2];
+    let sum = 0;
+    
+    for (let i = 0; i < 9; i++) {
+        let result = digits[i] * coefficients[i];
+        if (result > 9) result -= 9;
+        sum += result;
+    }
+    
+    const checkDigit = sum % 10 === 0 ? 0 : 10 - (sum % 10);
+    return checkDigit === digits[9];
+}
+
+// Definir la animación shake y estilos de error usando CSS-in-JS
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+        20%, 40%, 60%, 80% { transform: translateX(2px); }
+    }
+    
+    .field-container.has-error input,
+    .field-container.has-error textarea,
+    .field-container.has-error select {
+        border-color: #ef4444 !important;
+        background-color: rgba(254, 242, 242, 0.5) !important;
+    }
+    
+    .field-container.has-error input:focus,
+    .field-container.has-error textarea:focus,
+    .field-container.has-error select:focus {
+        border-color: #dc2626 !important;
+        box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2) !important;
+    }
+    
+    @media (prefers-color-scheme: dark) {
+        .field-container.has-error input,
+        .field-container.has-error textarea,
+        .field-container.has-error select {
+            background-color: rgba(153, 27, 27, 0.2) !important;
+            border-color: #ef4444 !important;
+        }
+    }
+    
+    /* Transiciones suaves para todos los elementos interactivos */
+    input, textarea, select, button, a {
+        transition: all 0.2s ease-in-out;
+    }
+    
+    /* Efecto hover mejorado para botones */
+    button:hover, a:hover {
+        transform: translateY(-1px);
+    }
+`;
+document.head.appendChild(style);
+</script>
+{% endblock %}

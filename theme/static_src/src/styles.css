@@ -31,4 +31,15 @@
 @apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-orange-100 text-orange-800 transition-colors;
 
 }
+
+.badge_blue_in{
+
+@apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-blue-100 text-blue-800 transition-colors hover:bg-blue-200 cursor-pointer;
+
+}
+
+.badge_disable{
+@apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-gray-100 text-gray-400 cursor-not-allowed opacity-60;
+}
+
 @source "../../../**/*.{html,py,js,css}";

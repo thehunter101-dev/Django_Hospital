@@ -103,12 +103,29 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 834521dfae6e26429ec788411e26c9f5f30091c9
         'USER': 'postgres.jidycdunvjrktjzwuzqi',
         'PASSWORD': 'Laslolis101',
         'HOST': 'aws-0-us-east-2.pooler.supabase.com',  # o la IP del servidor de base de datos
         'PORT': '6543',     # puerto por defecto de PostgreSQL
+<<<<<<< HEAD
+=======
+=======
+        'USER': 'postgres',
+        'PASSWORD': '123',
+        'HOST': 'localhost',  # o la IP del servidor de base de datos
+        'PORT': '5432',     # puerto por defecto de PostgreSQL
+>>>>>>> origin/tipos_sangre
+>>>>>>> 834521dfae6e26429ec788411e26c9f5f30091c9
     }
 }
+
+# ✅ Opción 1: Escapar los backslashes
+NPM_BIN_PATH = "C:\\Program Files\\nodejs\\npm.cmd"
+
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
@@ -158,3 +175,6 @@ LOGIN_URL = '/security/signin'
 # SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
+
