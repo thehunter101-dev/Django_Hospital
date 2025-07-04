@@ -1,183 +1,303 @@
+{% extends 'base.html' %}
 
-{% extends 'base.html' %} 
 <title>{% block title %}{{title}}{% endblock %}</title>
 
 {% block content %}
-<div class="min-h-screen -mx-4 -my-8 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
-    <!-- Header -->
-   
 
-    <!-- Contenido Principal -->
-    <main class="max-w-7xl mx-auto px-6 py-8">
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50/30 to-purple-50/20 relative overflow-hidden">
+    <!-- Background decorative elements -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-400/20 to-purple-600/20 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-emerald-400/20 to-cyan-600/20 rounded-full blur-3xl"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-pink-400/10 to-violet-600/10 rounded-full blur-3xl"></div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
         <!-- Welcome Section -->
-        <div class="mb-8">
-            <div class="bg-gradient-to-r from-blue-500 to-indigo-400 rounded-2xl p-8 text-white relative overflow-hidden">
-                <div class="relative z-10">
-                    <h2 class="text-3xl font-bold mb-2">¡Bienvenido a SaludTotal!</h2>
-                    <p class="text-blue-100 text-lg">Gestiona tu citas y atenciones</p>
+        <div class="mb-12">
+            <div class="relative group">
+                <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 rounded-3xl blur opacity-25 group-hover:opacity-40 transition duration-1000"></div>
+                <div class="relative bg-white/80 backdrop-blur-xl rounded-3xl p-8 border border-white/20 shadow-2xl">
+                    <div class="flex flex-col lg:flex-row items-center justify-between">
+                        <div class="flex-1 mb-6 lg:mb-0">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mr-4 shadow-lg">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h1 class="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 bg-clip-text text-transparent">
+                                        ¡Bienvenido a SaludTotal!
+                                    </h1>
+                                    <p class="text-gray-600 text-lg mt-2 font-medium">Gestiona tus citas y atenciones de manera inteligente</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <div class="w-32 h-32 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full flex items-center justify-center shadow-inner">
+                                <svg class="w-16 h-16 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16"></div>
-                <div class="absolute bottom-0 right-0 w-24 h-24 bg-white/5 rounded-full -mr-12 -mb-12"></div>
             </div>
         </div>
 
         <!-- Quick Stats -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:scale-105 border border-gray-100">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-gray-600 text-sm font-medium">Total Usuarios</p>
-                        <p class="text-2xl font-bold text-gray-900">1,234</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <!-- Stat Card 1 -->
+            <div class="group relative">
+                <div class="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-300"></div>
+                <div class="relative bg-white/90 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg">
+                            <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path>
+                            </svg>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-3xl font-bold text-gray-900">1,234</p>
+                            <p class="text-sm font-medium text-gray-600">Total Usuarios</p>
+                        </div>
                     </div>
-                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                        <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path>
-                        </svg>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:scale-105 border border-gray-100">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-gray-600 text-sm font-medium">Atenciones Hoy</p>
-                        <p class="text-2xl font-bold text-gray-900">89</p>
-                    </div>
-                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:scale-105 border border-gray-100">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-gray-600 text-sm font-medium">Consultas Pendientes</p>
-                        <p class="text-2xl font-bold text-gray-900">23</p>
-                    </div>
-                    <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-                        <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
+                    <div class="flex items-center text-sm">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            +12%
+                        </span>
+                        <span class="ml-2 text-gray-500">vs mes anterior</span>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:scale-105 border border-gray-100">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-gray-600 text-sm font-medium">Mantenimientos</p>
-                        <p class="text-2xl font-bold text-gray-900">5</p>
+            <!-- Stat Card 2 -->
+            <div class="group relative">
+                <div class="absolute -inset-0.5 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-300"></div>
+                <div class="relative bg-white/90 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-14 h-14 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-xl flex items-center justify-center shadow-lg">
+                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-3xl font-bold text-gray-900">89</p>
+                            <p class="text-sm font-medium text-gray-600">Atenciones Hoy</p>
+                        </div>
                     </div>
-                    <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
-                        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                        </svg>
+                    <div class="flex items-center text-sm">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+                            </svg>
+                            En tiempo
+                        </span>
+                        <span class="ml-2 text-gray-500">promedio 15min</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stat Card 3 -->
+            <div class="group relative">
+                <div class="absolute -inset-0.5 bg-gradient-to-r from-amber-500 to-orange-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-300"></div>
+                <div class="relative bg-white/90 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-14 h-14 bg-gradient-to-br from-amber-500 to-orange-500 rounded-xl flex items-center justify-center shadow-lg">
+                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-3xl font-bold text-gray-900">23</p>
+                            <p class="text-sm font-medium text-gray-600">Consultas Pendientes</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center text-sm">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                            </svg>
+                            Urgente
+                        </span>
+                        <span class="ml-2 text-gray-500">requiere atención</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stat Card 4 -->
+            <div class="group relative">
+                <div class="absolute -inset-0.5 bg-gradient-to-r from-rose-500 to-pink-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-300"></div>
+                <div class="relative bg-white/90 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-14 h-14 bg-gradient-to-br from-rose-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg">
+                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-3xl font-bold text-gray-900">5</p>
+                            <p class="text-sm font-medium text-gray-600">Mantenimientos</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center text-sm">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                            </svg>
+                            Crítico
+                        </span>
+                        <span class="ml-2 text-gray-500">programados</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Menus del sistema -->
-      {% if user.is_authenticated %}
-
-
-            <!-- Iterar por cada menú -->
+        <!-- System Menus -->
+        {% if user.is_authenticated %}
             {% for menu_item in menu_list %}
-                <div class="mb-12">
-                    <!-- Título del Menú -->
-                    <div class="flex items-center mb-2">
+                <div class="mb-16">
+                    <!-- Menu Title -->
+                    <div class="flex items-center mb-8">
                         {% if menu_item.menu.icon %}
-                            <div class="flex items-center justify-center w-12 h-12 bg-gradient-to-r 
-                                {% cycle 'from-blue-500 to-blue-600' 'from-orange-500 to-red-500' 'from-green-500 to-emerald-500' 'from-purple-500 to-indigo-500' 'from-pink-500 to-rose-500' 'from-teal-500 to-cyan-500' %}
-                                rounded-xl mr-4">
-                                <i class="{{ menu_item.menu.icon }} text-white text-xl"></i>
+                            <div class="relative group">
+                                <div class="absolute -inset-1 bg-gradient-to-r
+                                    {% cycle 'from-blue-500 to-purple-600' 'from-orange-500 to-red-500' 'from-green-500 to-emerald-500' 'from-purple-500 to-indigo-500' 'from-pink-500 to-rose-500' 'from-teal-500 to-cyan-500' %}
+                                    rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-300"></div>
+                                <div class="relative flex items-center justify-center w-16 h-16 bg-gradient-to-r
+                                    {% cycle 'from-blue-500 to-purple-600' 'from-orange-500 to-red-500' 'from-green-500 to-emerald-500' 'from-purple-500 to-indigo-500' 'from-pink-500 to-rose-500' 'from-teal-500 to-cyan-500' %}
+                                    rounded-2xl mr-6 shadow-xl">
+                                    <i class="{{ menu_item.menu.icon }} text-white text-2xl"></i>
+                                </div>
                             </div>
                         {% endif %}
                         <div>
-                            <h2 class="text-3xl font-bold text-gray-900">{{ menu_item.menu.name }}</h2>
+                            <h2 class="text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+                                {{ menu_item.menu.name }}
+                            </h2>
                             {% if menu_item.menu.description %}
-                                <p class="text-gray-600 mt-1">{{ menu_item.menu.description }}</p>
+                                <p class="text-gray-600 mt-2 text-lg font-medium">{{ menu_item.menu.description }}</p>
                             {% endif %}
                         </div>
                     </div>
-                    <hr class="border-0 h-1 bg-gradient-to-r from-transparent via-gray-400 to-transparent my-4 rounded">
-                    <!-- Cards de Módulos del Menú -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+
+                    <!-- Module Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                         {% for module_permission in menu_item.group_module_permission_list %}
-                            <a href="{% if module_permission.module.url %}{{ module_permission.module.url }}{% else %}#{% endif %}" 
-                            class="module-card bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:scale-105 border border-gray-100 group cursor-pointer block text-decoration-none">
-                                <!-- Icono del Módulo -->
-                                <div class="flex items-center justify-center w-14 h-14 bg-gradient-to-r 
-                                    {% cycle 'from-blue-100 to-blue-200 group-hover:from-blue-200 group-hover:to-blue-300' 'from-orange-100 to-red-100 group-hover:from-orange-200 group-hover:to-red-200' 'from-green-100 to-emerald-100 group-hover:from-green-200 group-hover:to-emerald-200' 'from-purple-100 to-indigo-100 group-hover:from-purple-200 group-hover:to-indigo-200' 'from-pink-100 to-rose-100 group-hover:from-pink-200 group-hover:to-rose-200' 'from-teal-100 to-cyan-100 group-hover:from-teal-200 group-hover:to-cyan-200' %}
-                                    rounded-xl mb-4 transition-all duration-300">
-                                    
-                                    {% if module_permission.module.icon %}
-                                        <i class="{{ module_permission.module.icon }} 
-                                        {% cycle 'text-blue-600' 'text-orange-600' 'text-green-600' 'text-purple-600' 'text-pink-600' 'text-teal-600' %} 
-                                        text-lg"></i>
-                                    {% else %}
-                                        <!-- Icono por defecto para módulos -->
-                                        <i class="fas fa-cube 
-                                        {% cycle 'text-blue-600' 'text-orange-600' 'text-green-600' 'text-purple-600' 'text-pink-600' 'text-teal-600' %} 
-                                        text-lg"></i>
-                                    {% endif %}
-                                </div>
-                                
-                                <!-- Nombre del Módulo -->
-                                <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ module_permission.module.name }}</h3>
-                                
-                                <!-- Descripción del Módulo -->
-                                <p class="text-gray-600 text-sm mb-4 leading-relaxed">
-                                    {% if module_permission.module.description %}
-                                        {{ module_permission.module.description }}
-                                    {% else %}
-                                        Accede a las funcionalidades de {{ module_permission.module.name|lower }}.
-                                    {% endif %}
-                                </p>
-                                
-                                <!-- Botón de Acceso -->
-                                <div class="w-full font-medium py-2 px-4 rounded-lg transition-all duration-300 text-sm text-center
-                                    {% cycle 'bg-blue-50 hover:bg-blue-100 text-blue-700 group-hover:bg-blue-600 group-hover:text-white' 'bg-orange-50 hover:bg-orange-100 text-orange-700 group-hover:bg-orange-600 group-hover:text-white' 'bg-green-50 hover:bg-green-100 text-green-700 group-hover:bg-green-600 group-hover:text-white' 'bg-purple-50 hover:bg-purple-100 text-purple-700 group-hover:bg-purple-600 group-hover:text-white' 'bg-pink-50 hover:bg-pink-100 text-pink-700 group-hover:bg-pink-600 group-hover:text-white' 'bg-teal-50 hover:bg-teal-100 text-teal-700 group-hover:bg-teal-600 group-hover:text-white' %}">
-                                    Acceder
-                                </div>
-                            </a>
+                            <div class="group relative module-card">
+                                <div class="absolute -inset-0.5 bg-gradient-to-r
+                                    {% cycle 'from-blue-400 to-purple-500' 'from-orange-400 to-red-500' 'from-green-400 to-emerald-500' 'from-purple-400 to-indigo-500' 'from-pink-400 to-rose-500' 'from-teal-400 to-cyan-500' %}
+                                    rounded-2xl blur opacity-0 group-hover:opacity-30 transition duration-500"></div>
+
+                                <a href="{% if module_permission.module.url %}{{ module_permission.module.url }}{% else %}#{% endif %}"
+                                   class="relative block bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 group-hover:bg-white/90">
+
+                                    <!-- Module Icon -->
+                                    <div class="relative mb-6">
+                                        <div class="absolute -inset-1 bg-gradient-to-r
+                                            {% cycle 'from-blue-400 to-purple-500' 'from-orange-400 to-red-500' 'from-green-400 to-emerald-500' 'from-purple-400 to-indigo-500' 'from-pink-400 to-rose-500' 'from-teal-400 to-cyan-500' %}
+                                            rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-300"></div>
+                                        <div class="relative flex items-center justify-center w-16 h-16 bg-gradient-to-br
+                                            {% cycle 'from-blue-50 to-purple-100 group-hover:from-blue-500 group-hover:to-purple-600' 'from-orange-50 to-red-100 group-hover:from-orange-500 group-hover:to-red-600' 'from-green-50 to-emerald-100 group-hover:from-green-500 group-hover:to-emerald-600' 'from-purple-50 to-indigo-100 group-hover:from-purple-500 group-hover:to-indigo-600' 'from-pink-50 to-rose-100 group-hover:from-pink-500 group-hover:to-rose-600' 'from-teal-50 to-cyan-100 group-hover:from-teal-500 group-hover:to-cyan-600' %}
+                                            rounded-xl transition-all duration-300 shadow-lg">
+
+                                            {% if module_permission.module.icon %}
+                                                <i class="{{ module_permission.module.icon }}
+                                                {% cycle 'text-blue-600 group-hover:text-white' 'text-orange-600 group-hover:text-white' 'text-green-600 group-hover:text-white' 'text-purple-600 group-hover:text-white' 'text-pink-600 group-hover:text-white' 'text-teal-600 group-hover:text-white' %}
+                                                text-xl transition-colors duration-300"></i>
+                                            {% else %}
+                                                <i class="fas fa-cube
+                                                {% cycle 'text-blue-600 group-hover:text-white' 'text-orange-600 group-hover:text-white' 'text-green-600 group-hover:text-white' 'text-purple-600 group-hover:text-white' 'text-pink-600 group-hover:text-white' 'text-teal-600 group-hover:text-white' %}
+                                                text-xl transition-colors duration-300"></i>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <!-- Module Name -->
+                                    <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-gray-800 transition-colors duration-300">
+                                        {{ module_permission.module.name }}
+                                    </h3>
+
+                                    <!-- Module Description -->
+                                    <p class="text-gray-600 text-sm mb-6 leading-relaxed line-clamp-3">
+                                        {% if module_permission.module.description %}
+                                            {{ module_permission.module.description }}
+                                        {% else %}
+                                            Accede a las funcionalidades avanzadas de {{ module_permission.module.name|lower }} con herramientas intuitivas y eficientes.
+                                        {% endif %}
+                                    </p>
+
+                                    <!-- Access Button -->
+                                    <div class="flex items-center justify-between">
+                                        <span class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300
+                                            {% cycle 'bg-blue-50 text-blue-700 group-hover:bg-blue-600 group-hover:text-white group-hover:shadow-lg' 'bg-orange-50 text-orange-700 group-hover:bg-orange-600 group-hover:text-white group-hover:shadow-lg' 'bg-green-50 text-green-700 group-hover:bg-green-600 group-hover:text-white group-hover:shadow-lg' 'bg-purple-50 text-purple-700 group-hover:bg-purple-600 group-hover:text-white group-hover:shadow-lg' 'bg-pink-50 text-pink-700 group-hover:bg-pink-600 group-hover:text-white group-hover:shadow-lg' 'bg-teal-50 text-teal-700 group-hover:bg-teal-600 group-hover:text-white group-hover:shadow-lg' %}">
+                                            Acceder
+                                            <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </a>
+                            </div>
                         {% empty %}
-                            <!-- Mensaje cuando no hay módulos en este menú -->
-                            <div class="col-span-full text-center py-8">
-                                <div class="text-gray-400">No hay módulos disponibles en este menú</div>
+                            <div class="col-span-full">
+                                <div class="text-center py-16">
+                                    <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2">No hay módulos disponibles</h3>
+                                    <p class="text-gray-500">Este menú no tiene módulos configurados actualmente.</p>
+                                </div>
                             </div>
                         {% endfor %}
                     </div>
                 </div>
             {% empty %}
-                <!-- Mensaje cuando no hay menús disponibles -->
-                <div class="text-center py-12">
-                    <div class="text-gray-400 text-lg">No hay módulos disponibles para este grupo</div>
+                <div class="text-center py-20">
+                    <div class="w-32 h-32 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3">No hay módulos disponibles</h3>
+                    <p class="text-gray-600 text-lg max-w-md mx-auto">No tienes módulos asignados para este grupo. Contacta al administrador para obtener acceso.</p>
                 </div>
             {% endfor %}
-
-      {% else %}
-                <!-- Mensaje para usuarios no autentificados -->
-                <div class="text-center py-12">
-                    <div class="text-gray-500 text-lg">Debes iniciar sesión para acceder a los módulos</div>
+        {% else %}
+            <div class="text-center py-20">
+                <div class="w-32 h-32 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-16 h-16 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                    </svg>
                 </div>
-      {% endif %}
-    </div>
-
-  
+                <h3 class="text-2xl font-bold text-gray-900 mb-3">Acceso Requerido</h3>
+                <p class="text-gray-600 text-lg mb-6 max-w-md mx-auto">Debes iniciar sesión para acceder a los módulos del sistema.</p>
+                <a href="#" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+                    </svg>
+                    Iniciar Sesión
+                </a>
+            </div>
+        {% endif %}
     </main>
 </div>
 
 <style>
-/* Custom animations */
+/* Modern animations and effects */
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translate3d(0, 40px, 0);
+        transform: translate3d(0, 30px, 0);
     }
     to {
         opacity: 1;
@@ -188,7 +308,7 @@
 @keyframes slideInRight {
     from {
         opacity: 0;
-        transform: translate3d(30px, 0, 0);
+        transform: translate3d(20px, 0, 0);
     }
     to {
         opacity: 1;
@@ -196,12 +316,23 @@
     }
 }
 
-@keyframes pulse {
+@keyframes float {
     0%, 100% {
-        opacity: 1;
+        transform: translateY(0px);
     }
     50% {
-        opacity: .8;
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes pulse-glow {
+    0%, 100% {
+        opacity: 0.5;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.05);
     }
 }
 
@@ -210,47 +341,77 @@
 }
 
 .module-card:nth-child(1) { animation-delay: 0.1s; }
-.module-card:nth-child(2) { animation-delay: 0.2s; }
-.module-card:nth-child(3) { animation-delay: 0.3s; }
-.module-card:nth-child(4) { animation-delay: 0.4s; }
-.module-card:nth-child(5) { animation-delay: 0.5s; }
-.module-card:nth-child(6) { animation-delay: 0.6s; }
+.module-card:nth-child(2) { animation-delay: 0.15s; }
+.module-card:nth-child(3) { animation-delay: 0.2s; }
+.module-card:nth-child(4) { animation-delay: 0.25s; }
+.module-card:nth-child(5) { animation-delay: 0.3s; }
+.module-card:nth-child(6) { animation-delay: 0.35s; }
+.module-card:nth-child(7) { animation-delay: 0.4s; }
+.module-card:nth-child(8) { animation-delay: 0.45s; }
 
-/* Hover effects */
-.module-card:hover .gradient-icon {
-    animation: pulse 2s infinite;
+/* Glassmorphism effect */
+.backdrop-blur-xl {
+    backdrop-filter: blur(24px);
 }
 
-/* Backdrop blur effect */
-.backdrop-blur-lg {
-    backdrop-filter: blur(16px);
-}
-</style>
-
-
-
-<!-- Ripple effect styles -->
-<style>
-.ripple {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.6);
-    transform: scale(0);
-    animation: ripple-animation 0.6s linear;
-    pointer-events: none;
+.backdrop-blur-sm {
+    backdrop-filter: blur(8px);
 }
 
-@keyframes ripple-animation {
-    to {
-        transform: scale(4);
-        opacity: 0;
+/* Line clamp utility */
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #3b82f6, #8b5cf6);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, #2563eb, #7c3aed);
+}
+
+/* Responsive improvements */
+@media (max-width: 640px) {
+    .module-card {
+        animation-delay: 0s !important;
     }
 }
 
-button {
-    position: relative;
-    overflow: hidden;
+/* Focus states for accessibility */
+a:focus,
+button:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+    .backdrop-blur-xl,
+    .backdrop-blur-sm {
+        backdrop-filter: none;
+        background: white !important;
+    }
 }
 </style>
-{% endblock content %}
 
+{% endblock content %}
