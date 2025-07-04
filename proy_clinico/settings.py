@@ -103,10 +103,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
-        'USER': 'postgres',
+        'USER': 'postgres.jidycdunvjrktjzwuzqi',
         'PASSWORD': 'Laslolis101',
-        'HOST': 'db.jidycdunvjrktjzwuzqi.supabase.co',  # o la IP del servidor de base de datos
-        'PORT': '5432',     # puerto por defecto de PostgreSQL
+        'HOST': 'aws-0-us-east-2.pooler.supabase.com',  # o la IP del servidor de base de datos
+        'PORT': '6543',     # puerto por defecto de PostgreSQL
     }
 }
 # Password validation
