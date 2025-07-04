@@ -4,6 +4,7 @@ from applications.core.views.doctor import DoctorListView, DoctorCreateView, Doc
 from applications.core.views.especialidades import EspecialidadListView, EspecialidadCreateView, EspecialidadUpdateView, EspecialidadDeleteView
 from applications.core.views.empleados import EmpleadoListView, EmpleadoCreateView, EmpleadoUpdateView, EmpleadoDeleteView
 from applications.core.views.diagnostico import DiagnosticoListView, DiagnosticoDeleteView, DiagnosticoUpdateView, DiagnosticoCreateView
+from applications.core.views.gasto_mensual import GastoMensualListView,GastoMensualCreateView,GastoMensualUpdateView,GastoMensualDeleteView
 
 
 
@@ -27,5 +28,9 @@ urlpatterns = [
     path('diagnosticos/nuevo/', DiagnosticoCreateView.as_view(), name='diagnostico_create'),
     path('diagnosticos/editar/<int:pk>/', DiagnosticoUpdateView.as_view(), name='diagnostico_update'),
     path('diagnosticos/eliminar/<int:pk>/', DiagnosticoDeleteView.as_view(), name='diagnostico_delete'),
+    path('gastos/', GastoMensualListView.as_view(), name='gasto_list'),
+    path('gastos/crear/', GastoMensualCreateView.as_view(), name='gasto_create'),
+    path('gastos/<int:pk>/editar/', GastoMensualUpdateView.as_view(), name='gasto_update'),
+    path('gastos/<int:pk>/eliminar/', GastoMensualDeleteView.as_view(), name='gasto_delete'),
 
 ]

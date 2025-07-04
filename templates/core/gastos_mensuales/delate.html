@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full space-y-8">
+    <!-- Contenedor principal -->
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+      
+      <!-- Header con icono de advertencia -->
+      <div class="bg-red-50 dark:bg-red-900/20 px-6 py-8 text-center border-b border-red-100 dark:border-red-800/30">
+        <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 dark:bg-red-900/40 mb-4">
+          <svg class="h-8 w-8 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+          </svg>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+          Confirmar Eliminación
+        </h2>
+        <p class="text-sm text-red-600 dark:text-red-400 font-medium">
+          Esta acción no se puede deshacer
+        </p>
+      </div>
+
+      <!-- Contenido del mensaje -->
+      <div class="px-6 py-6">
+        <div class="text-center mb-6">
+          <div class="bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-400 p-4 rounded-r-lg mb-6">
+            <div class="flex items-start">
+              <div class="flex-shrink-0">
+                <svg class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <div class="ml-3">
+                <p class="text-sm text-yellow-700 dark:text-yellow-300 text-left">
+                  {{ description }}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Información adicional -->
+          <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 mb-6">
+            <div class="flex items-center justify-center text-gray-600 dark:text-gray-300">
+              <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+              </svg>
+              <span class="text-sm font-medium">
+                Una vez eliminado, no podrás recuperar esta información
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Formulario de confirmación -->
+        <form method="post" class="space-y-4">
+          {% csrf_token %}
+          
+          <!-- Botones de acción -->
+          <div class="flex flex-col sm:flex-row gap-3">
+            <!-- Botón de confirmar eliminación -->
+            <button type="submit" 
+                    class="flex-1 inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-200 shadow-sm hover:shadow-md transform hover:scale-105">
+              <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+              </svg>
+              Sí, Eliminar
+            </button>
+            
+            <!-- Botón de cancelar -->
+            <a href="{{ back_url }}" 
+               class="flex-1 inline-flex justify-center items-center px-6 py-3 border border-gray-300 dark:border-gray-600 text-base font-medium rounded-lg text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all duration-200 shadow-sm hover:shadow-md">
+              <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+              </svg>
+              Cancelar
+            </a>
+          </div>
+        </form>
+      </div>
+
+      <!-- Footer con información adicional -->
+      <div class="bg-gray-50 dark:bg-gray-700/30 px-6 py-4 border-t border-gray-200 dark:border-gray-600">
+        <div class="flex items-center justify-center text-xs text-gray-500 dark:text-gray-400">
+          <svg class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.623 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+          </svg>
+          Acción de seguridad - Confirma tu decisión
+        </div>
+      </div>
+    </div>
+
+    <!-- Información adicional fuera del card -->
+    <div class="text-center">
+      <p class="text-sm text-gray-500 dark:text-gray-400">
+        ¿Necesitas ayuda? 
+        <a href="#" class="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 transition-colors duration-200">
+          Contacta soporte
+        </a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Script para mejorar la experiencia del usuario -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Agregar confirmación adicional con JavaScript
+    const deleteForm = document.querySelector('form');
+    const deleteButton = document.querySelector('button[type="submit"]');
+    
+    if (deleteForm && deleteButton) {
+        deleteForm.addEventListener('submit', function(e) {
+            // Agregar una confirmación adicional
+            const confirmed = confirm('¿Estás completamente seguro de que deseas eliminar este gasto? Esta acción no se puede deshacer.');
+            
+            if (!confirmed) {
+                e.preventDefault();
+                return false;
+            }
+            
+            // Cambiar el texto del botón para mostrar que se está procesando
+            deleteButton.innerHTML = `
+                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Eliminando...
+            `;
+            deleteButton.disabled = true;
+        });
+    }
+    
+    // Agregar efecto de focus automático al botón de cancelar para facilitar la salida
+    const cancelButton = document.querySelector('a[href*="back_url"]');
+    if (cancelButton) {
+        // Pequeño delay para que el usuario pueda leer el contenido
+        setTimeout(() => {
+            cancelButton.focus();
+        }, 1000);
+    }
+    
+    // Agregar soporte para teclas de escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            const cancelButton = document.querySelector('a[href*="back_url"]');
+            if (cancelButton) {
+                window.location.href = cancelButton.href;
+            }
+        }
+    });
+    
+    // Animación de entrada
+    const mainCard = document.querySelector('.bg-white');
+    if (mainCard) {
+        mainCard.style.opacity = '0';
+        mainCard.style.transform = 'translateY(20px)';
+        
+        setTimeout(() => {
+            mainCard.style.transition = 'all 0.3s ease-out';
+            mainCard.style.opacity = '1';
+            mainCard.style.transform = 'translateY(0)';
+        }, 100);
+    }
+});
+</script>
+{% endblock %}
