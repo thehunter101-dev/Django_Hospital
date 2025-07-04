@@ -103,10 +103,17 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
+<<<<<<< HEAD
         'USER': 'postgres.jidycdunvjrktjzwuzqi',
         'PASSWORD': 'Laslolis101',
         'HOST': 'aws-0-us-east-2.pooler.supabase.com',  # o la IP del servidor de base de datos
         'PORT': '6543',     # puerto por defecto de PostgreSQL
+=======
+        'USER': 'postgres',
+        'PASSWORD': '123',
+        'HOST': 'localhost',  # o la IP del servidor de base de datos
+        'PORT': '5432',     # puerto por defecto de PostgreSQL
+>>>>>>> origin/tipos_sangre
     }
 }
 
@@ -162,3 +169,6 @@ LOGIN_URL = '/security/signin'
 # SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
+
