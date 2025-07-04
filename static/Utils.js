@@ -1,6 +1,7 @@
 const badge_theme = {
     blueL : "block px-3 py-1 rounded-full text-sm font-medium bg-blue-50 text-blue-700 border border-blue-200",
     redL : "block px-3 py-1 rounded-full text-sm font-medium bg-red-50 text-red-700 border border-red-200",
+    disable: "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-gray-100 text-gray-400 cursor-not-allowed opacity-60"
 }
 const componet_badge = (value, theme) =>{
     let badge = document.createElement('span');
@@ -17,7 +18,7 @@ function replace_badge(value,theme, id){
     if (exist){
      return div.appendChild(componet_badge(value,theme))
     }else{
-        return div.appendChild(componet_badge("Oops!!! No tienes modulos xd","redL"))
+        return div.appendChild(componet_badge("Oops!!! No tienes modulos xd","disable"))
     }
 }
 
@@ -32,3 +33,5 @@ const marcaGrupo = (elemento, contenedorId)=>{
     elemento.classList.add('badge_select');
     elemento.textContent = "  " + elemento.textContent.trim()
 }
+
+
