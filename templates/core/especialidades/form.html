@@ -1,0 +1,371 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="dark:bg-principal">
+    <div class="text-center" data-aos="fade" data-aos-delay="200">
+        <div class="sm:pt-28 lg:pt-4">
+            <h1 class="rounded-2xl bg-indigo-500 px-2 py-1 text-white uppercase text-4xl">
+                {{ grabar }}
+            </h1>
+        </div>
+
+        <!-- Mensajes de error del formulario (no específicos de campo) -->
+        {% if form.non_field_errors %}
+        <div class="mx-4 lg:mx-20 mb-6" data-aos="fade-up">
+            <div class="bg-red-50 dark:bg-red-900/30 border-l-4 border-red-500 p-4 rounded-lg max-w-4xl mx-auto">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0">
+                        <i class="fa-solid fa-exclamation-triangle text-red-500 text-lg"></i>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-red-800 dark:text-red-200 font-medium">
+                            Se encontraron errores en el formulario:
+                        </h3>
+                        <div class="mt-2 text-red-700 dark:text-red-300">
+                            <ul class="list-disc list-inside space-y-1">
+                                {% for error in form.non_field_errors %}
+                                <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <form method="post" enctype="multipart/form-data" class="space-y-6 py-4">
+            <div class="mx-4 lg:mx-20" data-aos="fade">
+                <!-- Contenedor principal del formulario -->
+                <div class="bg-white dark:bg-secundario rounded-3xl p-8 max-w-4xl mx-auto"
+                    data-aos="fade-up" data-aos-delay="200">
+                    {% csrf_token %}
+
+                    <!-- Vista previa del icono de especialidad -->
+                    <div class="text-center mb-8">
+                        <div class="bg-gradient-to-br from-green-400 to-blue-500 rounded-full w-20 h-20 mx-auto flex items-center justify-center mb-4">
+                            <i class="fa-solid fa-stethoscope text-3xl text-white"></i>
+                        </div>
+                        <h2 class="dark:text-blue-300 text-2xl font-Pacifico">Especialidad Médica</h2>
+                    </div>
+
+                    <!-- Título de sección: Información de la Especialidad -->
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-bold text-gray-800 dark:text-blue-300 mb-2 flex items-center">
+                            <i class="fa-solid fa-user-md mr-3 text-green-500"></i>
+                            Información de la Especialidad
+                        </h2>
+                        <div class="h-1 bg-gradient-to-r from-green-500 to-teal-500 rounded-full w-32"></div>
+                    </div>
+
+                    <!-- Grid de campos -->
+                    <div class="space-y-6">
+                        <!-- Campo Nombre -->
+                        <div class="field-container {% if form.nombre.errors %}has-error{% endif %}">
+                            <label for="{{ form.nombre.id_for_label }}"
+                                class="font-black uppercase text-lg block mb-2
+                                       {% if form.nombre.errors %}text-red-600 dark:text-red-400{% else %}dark:text-blue-300{% endif %}">
+                                Nombre de la Especialidad
+                                {% if form.nombre.field.required %}<span class="text-red-500">*</span>{% endif %}
+                            </label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fa-solid fa-stethoscope text-gray-400"></i>
+                                </div>
+                                <input type="text" 
+                                    name="{{ form.nombre.name }}" 
+                                    value="{{ form.nombre.value|default:'' }}"
+                                    id="{{ form.nombre.id_for_label }}"
+                                    class="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
+                                           bg-white dark:bg-principal text-gray-900 dark:text-white
+                                           focus:ring-2 focus:ring-green-500 focus:border-green-500
+                                           transition-all duration-200"
+                                    placeholder="Ej. Cardiología, Pediatría, etc.">
+                                {% if form.nombre.errors %}
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                    <i class="fa-solid fa-exclamation-circle text-red-500"></i>
+                                </div>
+                                {% endif %}
+                            </div>
+                            {% if form.nombre.errors %}
+                            <div class="mt-2 text-red-600 dark:text-red-400 text-sm">
+                                {% for error in form.nombre.errors %}
+                                <div class="flex items-center mt-1">
+                                    <i class="fa-solid fa-circle-exclamation text-xs mr-2"></i>
+                                    {{ error }}
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Campo Descripción -->
+                        <div class="field-container {% if form.descripcion.errors %}has-error{% endif %}">
+                            <label for="{{ form.descripcion.id_for_label }}"
+                                class="font-black uppercase text-lg block mb-2
+                                       {% if form.descripcion.errors %}text-red-600 dark:text-red-400{% else %}dark:text-blue-300{% endif %}">
+                                Descripción
+                                {% if form.descripcion.field.required %}<span class="text-red-500">*</span>{% endif %}
+                            </label>
+                            <div class="relative">
+                                <textarea name="{{ form.descripcion.name }}" 
+                                    id="{{ form.descripcion.id_for_label }}"
+                                    rows="3"
+                                    class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg 
+                                           bg-white dark:bg-principal text-gray-900 dark:text-white
+                                           focus:ring-2 focus:ring-green-500 focus:border-green-500
+                                           transition-all duration-200 resize-none"
+                                    placeholder="Descripción breve de la especialidad (opcional)">{{ form.descripcion.value|default:'' }}</textarea>
+                                {% if form.descripcion.errors %}
+                                <div class="absolute top-3 right-3 pointer-events-none">
+                                    <i class="fa-solid fa-exclamation-circle text-red-500"></i>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                <i class="fa-solid fa-info-circle mr-1"></i>
+                                Proporciona una breve descripción de esta especialidad médica
+                            </p>
+                            {% if form.descripcion.errors %}
+                            <div class="mt-2 text-red-600 dark:text-red-400 text-sm">
+                                {% for error in form.descripcion.errors %}
+                                <div class="flex items-center mt-1">
+                                    <i class="fa-solid fa-circle-exclamation text-xs mr-2"></i>
+                                    {{ error }}
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Campo Activo -->
+                        <div class="field-container {% if form.activo.errors %}has-error{% endif %}">
+                            <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 border-2 border-dashed border-gray-300 dark:border-gray-600">
+                                <div class="flex items-start">
+                                    <div class="flex items-center h-5">
+                                        <input type="checkbox" 
+                                            name="{{ form.activo.name }}" 
+                                            id="{{ form.activo.id_for_label }}"
+                                            {% if form.activo.value %}checked{% endif %}
+                                            class="w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded 
+                                                   focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 
+                                                   focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                    </div>
+                                    <div class="ml-3">
+                                        <label for="{{ form.activo.id_for_label }}" class="cursor-pointer">
+                                            <span class="text-lg font-medium text-gray-900 dark:text-white flex items-center">
+                                                <i class="fa-solid fa-toggle-on text-green-500 mr-2"></i>
+                                                Especialidad Activa
+                                            </span>
+                                            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                                                Si está marcado, esta especialidad estará disponible para ser asignada a doctores y será visible en el sistema.
+                                            </p>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            {% if form.activo.errors %}
+                            <div class="mt-2 text-red-600 dark:text-red-400 text-sm">
+                                {% for error in form.activo.errors %}
+                                <div class="flex items-center mt-1">
+                                    <i class="fa-solid fa-circle-exclamation text-xs mr-2"></i>
+                                    {{ error }}
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Información adicional -->
+                    <div class="mt-8 p-4 bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 rounded-r-lg">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <i class="fa-solid fa-lightbulb text-blue-500 text-lg"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-blue-800 dark:text-blue-200 font-medium">
+                                    Consejos para crear especialidades
+                                </h3>
+                                <div class="mt-2 text-blue-700 dark:text-blue-300 text-sm">
+                                    <ul class="list-disc list-inside space-y-1">
+                                        <li>Usa nombres claros y reconocibles (ej: "Cardiología", "Pediatría")</li>
+                                        <li>La descripción ayuda a otros usuarios a entender el alcance de la especialidad</li>
+                                        <li>Solo las especialidades activas aparecerán en los formularios de doctores</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botones de acción -->
+                    <div class="flex flex-col md:flex-row justify-center items-center mt-8 space-y-3 md:space-y-0 md:space-x-8">
+                        <button type="submit"
+                            class="w-full md:w-auto bg-green-600 hover:bg-green-700 text-white py-3 px-8 rounded-lg flex items-center justify-center transition-all duration-300 font-medium shadow-lg hover:shadow-xl transform hover:scale-105">
+                            <i class="fa-solid fa-save mr-2"></i>{{ grabar }}
+                        </button>
+                        <a class="w-full md:w-auto bg-gray-500 hover:bg-gray-600 text-white py-3 px-8 rounded-lg flex items-center justify-center transition-all duration-300 font-medium shadow-lg hover:shadow-xl transform hover:scale-105"
+                            href="{{ back_url }}">
+                            <i class="fa-solid fa-arrow-left mr-2"></i>Cancelar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Animación para campos con errores
+    const errorFields = document.querySelectorAll('.field-container.has-error');
+    errorFields.forEach(field => {
+        field.style.animation = 'shake 0.5s ease-in-out';
+    });
+
+    // Auto-focus en el primer campo
+    const firstInput = document.querySelector('input[name="nombre"]');
+    if (firstInput) {
+        firstInput.focus();
+    }
+
+    // Validación en tiempo real para campos requeridos
+    const requiredInputs = document.querySelectorAll('input[required], textarea[required]');
+    requiredInputs.forEach(input => {
+        input.addEventListener('blur', function() {
+            const fieldContainer = this.closest('.field-container');
+            if (this.value.trim() === '') {
+                fieldContainer.classList.add('has-error');
+                this.classList.add('border-red-500');
+            } else {
+                fieldContainer.classList.remove('has-error');
+                this.classList.remove('border-red-500');
+            }
+        });
+
+        // Remover error al escribir
+        input.addEventListener('input', function() {
+            const fieldContainer = this.closest('.field-container');
+            if (this.value.trim() !== '') {
+                fieldContainer.classList.remove('has-error');
+                this.classList.remove('border-red-500');
+            }
+        });
+    });
+
+    // Contador de caracteres para descripción
+    const descripcionTextarea = document.querySelector('textarea[name="descripcion"]');
+    if (descripcionTextarea) {
+        const maxLength = 500; // Límite sugerido
+        
+        // Crear contador
+        const counter = document.createElement('div');
+        counter.className = 'text-xs text-gray-500 dark:text-gray-400 mt-1 text-right';
+        counter.id = 'descripcion-counter';
+        descripcionTextarea.parentNode.appendChild(counter);
+        
+        function updateCounter() {
+            const currentLength = descripcionTextarea.value.length;
+            counter.textContent = `${currentLength}/${maxLength} caracteres`;
+            
+            if (currentLength > maxLength * 0.9) {
+                counter.classList.add('text-yellow-600');
+                counter.classList.remove('text-gray-500');
+            } else {
+                counter.classList.remove('text-yellow-600');
+                counter.classList.add('text-gray-500');
+            }
+        }
+        
+        descripcionTextarea.addEventListener('input', updateCounter);
+        updateCounter(); // Inicializar contador
+    }
+
+    // Mejorar la experiencia del checkbox
+    const checkbox = document.querySelector('input[type="checkbox"]');
+    const checkboxContainer = checkbox.closest('.bg-gray-50');
+    
+    checkbox.addEventListener('change', function() {
+        if (this.checked) {
+            checkboxContainer.classList.add('bg-green-50', 'dark:bg-green-900/20', 'border-green-300');
+            checkboxContainer.classList.remove('bg-gray-50', 'dark:bg-gray-800', 'border-gray-300');
+        } else {
+            checkboxContainer.classList.remove('bg-green-50', 'dark:bg-green-900/20', 'border-green-300');
+            checkboxContainer.classList.add('bg-gray-50', 'dark:bg-gray-800', 'border-gray-300');
+        }
+    });
+
+    // Inicializar estado del checkbox
+    if (checkbox.checked) {
+        checkboxContainer.classList.add('bg-green-50', 'dark:bg-green-900/20', 'border-green-300');
+        checkboxContainer.classList.remove('bg-gray-50', 'dark:bg-gray-800', 'border-gray-300');
+    }
+
+    // Confirmación antes de cancelar si hay cambios
+    const cancelButton = document.querySelector('a[href*="back_url"], a[href*="list"]');
+    const form = document.querySelector('form');
+    let formChanged = false;
+
+    // Detectar cambios en el formulario
+    form.addEventListener('input', function() {
+        formChanged = true;
+    });
+
+    form.addEventListener('change', function() {
+        formChanged = true;
+    });
+
+    if (cancelButton) {
+        cancelButton.addEventListener('click', function(e) {
+            if (formChanged) {
+                if (!confirm('¿Estás seguro que deseas cancelar? Se perderán los cambios no guardados.')) {
+                    e.preventDefault();
+                }
+            }
+        });
+    }
+});
+
+// Definir la animación shake y estilos de error usando CSS-in-JS
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+        20%, 40%, 60%, 80% { transform: translateX(2px); }
+    }
+    
+    .field-container.has-error input,
+    .field-container.has-error textarea {
+        border-color: #ef4444 !important;
+        background-color: rgba(254, 242, 242, 0.5) !important;
+    }
+    
+    .field-container.has-error input:focus,
+    .field-container.has-error textarea:focus {
+        border-color: #dc2626 !important;
+        box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2) !important;
+    }
+    
+    @media (prefers-color-scheme: dark) {
+        .field-container.has-error input,
+        .field-container.has-error textarea {
+            background-color: rgba(153, 27, 27, 0.2) !important;
+            border-color: #ef4444 !important;
+        }
+    }
+    
+    /* Transiciones suaves para todos los elementos interactivos */
+    input, textarea, button, a {
+        transition: all 0.2s ease-in-out;
+    }
+    
+    /* Efecto hover mejorado para botones */
+    button:hover, a:hover {
+        transform: translateY(-1px);
+    }
+`;
+document.head.appendChild(style);
+</script>
+{% endblock %}
