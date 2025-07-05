@@ -1,0 +1,16 @@
+<!-- templates/pago/_detalle_form.html -->
+<form method="POST"
+      hx-post="{% url 'doctor:htmx_detalle_save' pago.id %}" if not detalle
+      hx-post="{% url 'doctor:htmx_detalle_update' pago.id detalle.id %}" if detalle
+      hx-target="#detalle-list-{{ pago.id }}"
+      hx-swap="innerHTML">
+  {% csrf_token %}
+  <div class="grid gap-4 grid-cols-1 md:grid-cols-2">
+    {{ form.as_p }}
+  </div>
+  <div class="mt-4 flex justify-end space-x-2">
+    <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">Guardar Detalle</button>
+    <button type="button" class="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded"
+            onclick="document.getElementById('pago-form').innerHTML = '';">Cancelar</button>
+  </div>
+</form>

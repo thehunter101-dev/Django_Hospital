@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.env
+.venv
+ENV/
+env/
+venv/
+pip-log.txt
+pip-delete-this-directory.txt
+*.log
+
+# Django
+db.sqlite3
+*.sqlite3
+.env         # si usas variables de entorno en un archivo .env
+
+# VSCode/IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Migrations (opcional, si no quieres trackearlas)
+**/migrations/__pycache__/
+**/migrations/*.pyc
+# **/migrations/  ← cuidado: esto ignoraría todos los archivos de migración
+
+# Coverage/Test
+htmlcov/
+.coverage
+.tox/
+.nox/
+.cache/
+pytest_cache/

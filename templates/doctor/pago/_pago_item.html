@@ -1,0 +1,35 @@
+<!-- templates/pago/_pago_item.html -->
+<div class="border p-4 rounded shadow bg-white">
+  <div class="flex justify-between items-center">
+    <div>
+      <p class="font-bold">Pago #{{ pago.id }} - {{ pago.get_estado_display }}</p>
+      <p>Atención: {{ pago.atencion }}</p>
+      <p>Monto: ${{ pago.monto_total }}</p>
+      <p>Fecha: {{ pago.fecha_creacion|date:"d/m/Y H:i" }}</p>
+    </div>
+    <div class="space-x-2">
+      <button class="bg-yellow-500 hover:bg-yellow-600 text-white px-2 py-1 rounded"
+              hx-get="{% url 'doctor:htmx_pago_edit' pago.id %}"
+              hx-target="#pago-form"
+              hx-swap="innerHTML">Editar</button>
+      <button class="bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded"
+              hx-delete="{% url 'doctor:htmx_pago_delete' pago.id %}"
+              hx-confirm="¿Eliminar este pago?"
+              hx-target="#pago-{{ pago.id }}"
+              hx-swap="outerHTML">Eliminar</button>
+    </div>
+  </div>
+
+  <div class="mt-4" id="detalle-list-{{ pago.id }}">
+    {% for detalle in pago.detalles.all %}
+      {% include "pago/_detalle_item.html" with detalle=detalle %}
+    {% empty %}
+      <p class="text-gray-500">Sin detalles aún.</p>
+    {% endfor %}
+  </div>
+
+  <button class="mt-2 bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded"
+          hx-get="{% url 'doctor:htmx_detalle_create' pago.id %}"
+          hx-target="#pago-form"
+          hx-swap="innerHTML">Agregar Detalle</button>
+</div>

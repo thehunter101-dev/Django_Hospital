@@ -1,0 +1,10 @@
+<!-- templates/pago/_pago_list.html -->
+<div class="space-y-4">
+  {% for pago in pagos %}
+    <div id="pago-{{ pago.id }}" hx-swap-oob="true">
+      {% include "pago/_pago_item.html" with pago=pago %}
+    </div>
+  {% empty %}
+    <p>No hay pagos registrados.</p>
+  {% endfor %}
+</div>

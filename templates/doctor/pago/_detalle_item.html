@@ -1,0 +1,20 @@
+<!-- templates/pago/_detalle_item.html -->
+<div id="detalle-{{ detalle.id }}" class="border-t pt-2 mt-2">
+  <div class="flex justify-between items-center">
+    <div>
+      <p class="font-semibold">{{ detalle.servicio_adicional }} x {{ detalle.cantidad }}</p>
+      <p>Subtotal: ${{ detalle.subtotal }}</p>
+    </div>
+    <div class="space-x-2">
+      <button class="bg-yellow-500 hover:bg-yellow-600 text-white px-2 py-1 rounded"
+              hx-get="{% url 'doctor:htmx_detalle_edit' detalle.pago.id detalle.id %}"
+              hx-target="#pago-form"
+              hx-swap="innerHTML">Editar</button>
+      <button class="bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded"
+              hx-delete="{% url 'doctor:htmx_detalle_delete' detalle.id %}"
+              hx-target="#detalle-{{ detalle.id }}"
+              hx-swap="outerHTML"
+              hx-confirm="¿Eliminar este detalle?">Eliminar</button>
+    </div>
+  </div>
+</div>
