@@ -107,7 +107,6 @@ DATABASES = {
         'PASSWORD': 'Laslolis101',
         'HOST': 'aws-0-us-east-2.pooler.supabase.com',  # o la IP del servidor de base de datos
         'PORT': '6543',     # puerto por defecto de PostgreSQL
-
     }
 }
 
