@@ -71,10 +71,6 @@ urlpatterns = [
     path('citas/<int:pk>/editar/', CitaMedicaUpdateView.as_view(), name='cita_update'),
     path('citas/<int:pk>/eliminar/', CitaMedicaDeleteView.as_view(), name='cita_delete'),
 
-<<<<<<< HEAD
-=======
-
-
     # path('detalle_pago/', DetallePagoListView.as_view(), name='detalle_pago_list'),
     # path('detalle_pago/create/', DetallePagoCreateView.as_view(), name='detalle_pago_create'),
     # path('detalle_pago/<int:pk>/edit/', DetallePagoUpdateView.as_view(), name='detalle_pago_update'),
@@ -93,6 +89,4 @@ urlpatterns = [
     path('citas/fecha/<str:fecha>/', citas_por_fecha, name='citas_por_fecha'),
     path('calendario',calendario_dashboard,name = 'calendario'),
 
->>>>>>> 68672cfb53b50007f4274a36bd85209e32137f5d
 ]
-
