@@ -46,3 +46,5 @@ htmlcov/
 .nox/
 .cache/
 pytest_cache/
+
+node_modules/
